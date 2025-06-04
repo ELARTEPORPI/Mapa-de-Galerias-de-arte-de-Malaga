@@ -25,34 +25,39 @@
     }).addTo(map);
 
     const galerias = [
-      {
-        nombre: "Neo Taller",
-        lat: 36.722317284717995,
-        lng: -4.425249766545607,
-        descripcion: "Exposición actual De la vida al árbol""Inaugurada el 3 de junio"
-        "Horarios de visita: Martes a viernes. 11:00-14:00 y 17:30-20:30"
-      },
-      {
-        nombre: "Galería Benedito",
-        lat: 36.72230567315856,
-        lng: -4.419178595395621,
-        descripcion: "Exposición actual Fondo de galería""Inaugurada el 6 de junio"
-        "Horarios de visita: Martes a viernes. 11:00-13:30 y 17:00-20:00"
-      },
-      {
-        nombre: "Galería de arte Alma",
-        lat: 36.720083869567496,
-        lng: -4.423436089462311,
-        descripcion: "Exposición actual Entre dos aguas""Inaugurada el 15 de febrero"
-        "Horarios de visita: Lunes a sábado. 11:00-14:00 y 16:30-20:00""Miércoles y viernes 17:00-20:00"
-      },
-      {
-        nombre: "Galería Moderna",
-        lat: 36.720,
-        lng: -4.422,
-        descripcion: "Exposiciones de arte moderno y contemporáneo"
-      }
-    ];
+  {
+    nombre: "Neo Taller",
+    lat: 36.722317284717995,
+    lng: -4.425249766545607,
+    descripcion: `Exposición actual De la vida al árbol
+Inaugurada el 3 de junio
+Horarios de visita: Martes a viernes. 11:00-14:00 y 17:30-20:30`
+  },
+  {
+    nombre: "Galería Benedito",
+    lat: 36.72230567315856,
+    lng: -4.419178595395621,
+    descripcion: `Exposición actual Fondo de galería
+Inaugurada el 6 de junio
+Horarios de visita: Martes a viernes. 11:00-13:30 y 17:00-20:00`
+  },
+  {
+    nombre: "Galería de arte Alma",
+    lat: 36.720083869567496,
+    lng: -4.423436089462311,
+    descripcion: `Exposición actual Entre dos aguas
+Inaugurada el 15 de febrero
+Horarios de visita: Lunes a sábado. 11:00-14:00 y 16:30-20:00
+Miércoles y viernes 17:00-20:00`
+  },
+  {
+    nombre: "Galería Moderna",
+    lat: 36.720,
+    lng: -4.422,
+    descripcion: "Exposiciones de arte moderno y contemporáneo"
+  }
+];
+
 
     galerias.forEach(galeria => {
       L.marker([galeria.lat, galeria.lng]).addTo(map)
