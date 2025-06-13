@@ -2,17 +2,44 @@
 <html>
 <head>
   <meta charset="utf-8" />
-  <title>Mapa de Galerías de Arte con ubicación del usuario</title>
+  <title>Mapa de Galerías de Arte - Multilenguaje</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
   <style>
+    body {
+      margin: 0; padding: 0; font-family: Arial, sans-serif;
+    }
     #map {
-      height: 100vh;
+      height: 90vh;
       width: 100%;
+    }
+    #lang-buttons {
+      text-align: center;
+      margin: 10px 0;
+    }
+    #lang-buttons button {
+      background: #3388ff;
+      border: none;
+      color: white;
+      padding: 8px 15px;
+      margin: 0 5px;
+      cursor: pointer;
+      font-weight: bold;
+      border-radius: 4px;
+      transition: background 0.3s;
+    }
+    #lang-buttons button.active, 
+    #lang-buttons button:hover {
+      background: #255ec8;
     }
   </style>
 </head>
 <body>
+
+  <div id="lang-buttons">
+    <button id="btn-es" class="active">ES</button>
+    <button id="btn-en">EN</button>
+  </div>
   <div id="map"></div>
 
   <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
@@ -24,26 +51,37 @@
       maxZoom: 19,
     }).addTo(map);
 
+    // Datos con descripciones en español y en inglés
     const galerias = [
-  {
-    nombre: "El NeoTaller",
-    lat: 36.722317284717995,
-    lng: -4.425249766545607,
-    descripcion: `Exposición actual: De la vida al árbol<a href="https://www.instagram.com/p/DKhJwTxtNIS/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA==" target="_blank">📸</a><br>
+      {
+        nombre: "El NeoTaller",
+        lat: 36.722317284717995,
+        lng: -4.425249766545607,
+        descripcion_es: `Exposición actual: De la vida al árbol<a href="https://www.instagram.com/p/DKhJwTxtNIS/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA==" target="_blank"> 📸</a><br>
 Inaugurada: El 5 de junio<br>
-Horarios de visita: Martes a viernes. 11:00-14:00 y 17:30-20:30<br>
+Horarios de visita: Martes a viernes. 11:00 - 14:00 y 17:30 - 20:30<br>
 Instagram:  <a href="https://www.instagram.com/elneotaller/" target="_blank">@elneotaller</a><br>
-<a href="https://maps.app.goo.gl/j2PkbBC3ciqQ1vgAA"_blank">Ver en Google Maps</a>`
-  },
-  {
-    nombre: "Galería de Arte Benedito",
-    lat: 36.72230567315856,
-    lng: -4.419178595395621,
-    descripcion: `Exposición actual: Fondo de galería<br>
+<a href="https://maps.app.goo.gl/j2PkbBC3ciqQ1vgAA" target="_blank">Ver en Google Maps</a>`,
+        descripcion_en: `Current exhibition: De la vida al árbol<a href="https://www.instagram.com/p/DKhJwTxtNIS/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA==" target="_blank"> 📸</a><br>
+Opened: June 5<br>
+Visiting hours: Tuesday to Friday. 11:00 AM - 02:00 PM and 5:30 PM - 08:30 PM<br>
+Instagram:  <a href="https://www.instagram.com/elneotaller/" target="_blank">@elneotaller</a><br>
+<a href="https://maps.app.goo.gl/j2PkbBC3ciqQ1vgAA" target="_blank">View on Google Maps</a>`
+      },
+      {
+    	nombre: "Galería de Arte Benedito",
+    	lat: 36.72230567315856,
+    	lng: -4.419178595395621,
+    	descripcion_es: `Exposición actual: Fondo de galería<br>
 Inaugurada: El 6 de junio<br>
-Horarios de visita: Martes a viernes. 11:00-13:30 y 17:00-20:00<br>
+Horarios de visita: Martes a viernes. 11:00 - 13:30 y 17:00 - 20:00<br>
 Instagram:  <a href="https://www.instagram.com/galeriabenedito/" target="_blank">@galeriabenedito</a><br>
-<a href="https://maps.app.goo.gl/QV3EpEBVdEys43Gg9" target="_blank">Ver en Google Maps</a>`
+<a href="https://maps.app.goo.gl/QV3EpEBVdEys43Gg9" target="_blank">Ver en Google Maps</a>`,
+ 	    descripcion_en: `Current exhibition: Fondo de galería<a href="https://www.instagram.com/p/DKhJwTxtNIS/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA==" target="_blank"> 📸</a><br>
+Opened: June 6<br>
+Visiting hours: Tuesday to Friday. 11:00 AM - 01:30 PM and 5:00 PM - 08:00 PM<br>
+Instagram:  <a href="https://www.instagram.com/galeriabenedito/" target="_blank">@galeriabenedito</a><br>
+<a href="maps.app.goo.gl/QV3EpEBVdEys43Gg9" target="_blank">View on Google Maps</a>`
   },
    {
     nombre: "Galería Taller Gravura",
@@ -187,14 +225,50 @@ Instagram: <a href="https://www.instagram.com/libreriaislanegra/" target="_blank
 <a href="https://maps.app.goo.gl/QGBNwHUzyrYbsvnA8" target="_blank">Ver en Google Maps</a>`
 }
 
-];
+ ];
 
+    let currentLang = 'es'; // idioma por defecto
+    let markers = [];
 
-    galerias.forEach(galeria => {
-      L.marker([galeria.lat, galeria.lng])
-        .addTo(map)
-        .bindPopup(`<b>${galeria.nombre}</b><br>${galeria.descripcion}`);
+    function showMarkers() {
+      // limpiar marcadores anteriores
+      markers.forEach(m => map.removeLayer(m));
+      markers = [];
 
+      galerias.forEach(galeria => {
+        const descripcion = currentLang === 'es' ? galeria.descripcion_es : galeria.descripcion_en;
+
+        const marker = L.marker([galeria.lat, galeria.lng])
+          .addTo(map)
+          .bindPopup(`<b>${galeria.nombre}</b><br>${descripcion}`);
+
+        markers.push(marker);
+      });
+    }
+
+    // Mostrar marcadores por defecto
+    showMarkers();
+
+    // Botones de idioma
+    const btnEs = document.getElementById('btn-es');
+    const btnEn = document.getElementById('btn-en');
+
+    btnEs.addEventListener('click', () => {
+      if(currentLang !== 'es') {
+        currentLang = 'es';
+        btnEs.classList.add('active');
+        btnEn.classList.remove('active');
+        showMarkers();
+      }
+    });
+
+    btnEn.addEventListener('click', () => {
+      if(currentLang !== 'en') {
+        currentLang = 'en';
+        btnEn.classList.add('active');
+        btnEs.classList.remove('active');
+        showMarkers();
+      }
     });
 
     // Mostrar la ubicación del usuario
@@ -203,7 +277,6 @@ Instagram: <a href="https://www.instagram.com/libreriaislanegra/" target="_blank
         const userLat = position.coords.latitude;
         const userLng = position.coords.longitude;
 
-        // Marcador azul para la ubicación del usuario
         const userMarker = L.circleMarker([userLat, userLng], {
           radius: 8,
           fillColor: "#3388ff",
@@ -213,7 +286,6 @@ Instagram: <a href="https://www.instagram.com/libreriaislanegra/" target="_blank
           fillOpacity: 0.9
         }).addTo(map).bindPopup("Tu ubicación");
 
-        // Centrar el mapa en la ubicación del usuario
         map.setView([userLat, userLng], 14);
       }, error => {
         console.log("No se pudo obtener la ubicación: ", error.message);
