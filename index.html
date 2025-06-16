@@ -39,7 +39,12 @@
   </div>
 
   <div id="map"></div>
-
+<div id="gallery-select-container" style="padding: 10px; background: #f7f7f7; border-top: 1px solid #ccc;">
+  <label for="gallery-select" style="font-weight: bold;">Selecciona una galería:</label>
+  <select id="gallery-select" style="width: 100%; max-width: 400px; padding: 6px; margin-top: 5px;">
+    <option value="">-- Elige una galería --</option>
+  </select>
+</div>
   <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
   <script>
     // Inicializar mapa
@@ -345,8 +350,30 @@ Instagram: <a href="https://www.instagram.com/libreriaislanegra/" target="_blank
  ];
 
     let currentLang = 'es'; // idioma por defecto
-    let markers = [];
+let markers = [];
 
+const gallerySelect = document.getElementById('gallery-select');
+
+// Rellenar la lista con las galerías
+galerias.forEach((galeria, index) => {
+  const option = document.createElement('option');
+  option.value = index;  // guardamos el índice para referencia
+  option.textContent = galeria.nombre;
+  gallerySelect.appendChild(option);
+});
+
+gallerySelect.addEventListener('change', () => {
+  const selectedIndex = gallerySelect.value;
+  if (selectedIndex === "") return; // nada seleccionado
+
+  const galeria = galerias[selectedIndex];
+  const latLng = [galeria.lat, galeria.lng];
+
+  map.setView(latLng, 16);
+
+  // Abrir popup del marcador correspondiente
+  markers[selectedIndex].openPopup();
+});
     function showMarkers() {
       // limpiar marcadores anteriores
       markers.forEach(m => map.removeLayer(m));
