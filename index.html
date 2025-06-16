@@ -1,43 +1,31 @@
 <!DOCTYPE html>
-<html lang="es">
+<html>
 <head>
-  <meta charset="UTF-8" />
-  <title>Mapa de galerías - Málaga</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link
-    rel="stylesheet"
-    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-    integrity="sha256-sA+HXd6v1LU10CnZ9h5KKFbr0Q13TciHcskPYZ6M+gI="
-    crossorigin=""
-  />
+  <meta charset="utf-8" />
+  <title>Mapa de Galerías de Arte</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
   <style>
-    #map { height: 100vh; width: 100%; }
+    #map {
+      height: 100vh;
+      width: 100%;
+      border: 3px solid red;
+    }
   </style>
 </head>
 <body>
   <div id="map"></div>
 
-  <script
-    src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-    integrity="sha256-o9N1j4Mw5wAkwq6YfF3qjP+6Nq4p1ogkN37H0uH4jYc="
-    crossorigin=""
-  ></script>
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
   <script>
-    const map = L.map('map').setView([36.7202, -4.4203], 14);
+    console.log('Leaflet version:', L.version);
 
-    // Creamos un pane para etiquetas que estén encima
-    map.createPane('labels');
-    map.getPane('labels').style.zIndex = 650;
-    map.getPane('labels').style.pointerEvents = 'none';
+    const map = L.map('map').setView([36.7213, -4.4214], 13);
 
-    // Capa base con colores pero sin etiquetas (agua, verde, calles)
-  const baseLayer = L.tileLayer(
-  'https://{s}.basemaps.cartocdn.com/rastertiles/voyager_nolabels/{z}/{x}/{y}{r}.png',
-  {
-    attribution: '&copy; OpenStreetMap contributors & CartoDB',
-    maxZoom: 19,
-  }
-).addTo(map);
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+      attribution: '&copy; OpenStreetMap contributors & CartoDB',
+      maxZoom: 19,
+    }).addTo(map);
 
     // Datos con descripciones en español y en inglés
     const galerias = [
