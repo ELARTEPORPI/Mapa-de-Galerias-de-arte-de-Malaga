@@ -13,37 +13,14 @@
       height: 90vh;
       width: 100%;
     }
-    #lang-buttons {
-      text-align: center;
-      margin: 10px 0;
+    /* Botón toggle idioma */
+    #language-toggle {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      z-index: 1000;
     }
-    #lang-buttons button {
-      background: #3388ff;
-      border: none;
-      color: white;
-      padding: 8px 15px;
-      margin: 0 5px;
-      cursor: pointer;
-      font-weight: bold;
-      border-radius: 4px;
-      transition: background 0.3s;
-    }
-    #lang-buttons button.active, 
-    #lang-buttons button:hover {
-      background: #255ec8;
-    }
-  </style>
-</head>
-<body>
-
-   <!-- Botón de idioma -->
-  <div id="language-toggle" style="
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    z-index: 1000;
-  ">
-    <button id="toggle-language" style="
+    #language-toggle button {
       background-color: white;
       border: 1px solid #ccc;
       border-radius: 8px;
@@ -51,14 +28,21 @@
       box-shadow: 0 2px 6px rgba(0,0,0,0.2);
       cursor: pointer;
       font-weight: bold;
-    ">
-      EN
-    </button>
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Botón toggle idioma -->
+  <div id="language-toggle">
+    <button id="toggle-language">EN</button>
   </div>
+
   <div id="map"></div>
 
   <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
   <script>
+    // Inicializar mapa
     const map = L.map('map').setView([36.7213, -4.4214], 13);
 
     L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
@@ -382,27 +366,21 @@ Instagram: <a href="https://www.instagram.com/libreriaislanegra/" target="_blank
     // Mostrar marcadores por defecto
     showMarkers();
 
-    // Botones de idioma
-    const btnEs = document.getElementById('btn-es');
-    const btnEn = document.getElementById('btn-en');
+    // Botón toggle idioma
+    const toggleBtn = document.getElementById('toggle-language');
 
-    btnEs.addEventListener('click', () => {
-      if(currentLang !== 'es') {
-        currentLang = 'es';
-        btnEs.classList.add('active');
-        btnEn.classList.remove('active');
-        showMarkers();
-      }
+    function updateButtonText() {
+      toggleBtn.textContent = currentLang === 'es' ? 'EN' : 'ES';
+    }
+
+    toggleBtn.addEventListener('click', () => {
+      currentLang = currentLang === 'es' ? 'en' : 'es';
+      updateButtonText();
+      showMarkers();
     });
 
-    btnEn.addEventListener('click', () => {
-      if(currentLang !== 'en') {
-        currentLang = 'en';
-        btnEn.classList.add('active');
-        btnEs.classList.remove('active');
-        showMarkers();
-      }
-    });
+    // Inicializa texto del botón
+    updateButtonText();
 
     // Mostrar la ubicación del usuario
     if ("geolocation" in navigator) {
@@ -417,7 +395,7 @@ Instagram: <a href="https://www.instagram.com/libreriaislanegra/" target="_blank
           weight: 2,
           opacity: 1,
           fillOpacity: 0.9
-        }).addTo(map).bindPopup("Tu ubicación");
+        }).addTo(map).bindPopup(currentLang === 'es' ? "Tu ubicación" : "Your location");
 
         map.setView([userLat, userLng], 14);
       }, error => {
@@ -427,5 +405,6 @@ Instagram: <a href="https://www.instagram.com/libreriaislanegra/" target="_blank
       console.log("Geolocalización no está disponible en este navegador.");
     }
   </script>
+
 </body>
 </html>
