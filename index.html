@@ -2,27 +2,51 @@
 <html>
 <head>
   <meta charset="utf-8" />
-  <title>Mapa de Galerías de Arte</title>
+  <title>Mapa de Galerías de Arte - Multilenguaje</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
   <style>
+    body {
+      margin: 0; padding: 0; font-family: Arial, sans-serif;
+    }
     #map {
-      height: 100vh;
+      height: 90vh;
       width: 100%;
-      border: 3px solid red;
+    }
+    #lang-buttons {
+      text-align: center;
+      margin: 10px 0;
+    }
+    #lang-buttons button {
+      background: #3388ff;
+      border: none;
+      color: white;
+      padding: 8px 15px;
+      margin: 0 5px;
+      cursor: pointer;
+      font-weight: bold;
+      border-radius: 4px;
+      transition: background 0.3s;
+    }
+    #lang-buttons button.active, 
+    #lang-buttons button:hover {
+      background: #255ec8;
     }
   </style>
 </head>
 <body>
+
+  <div id="lang-buttons">
+    <button id="btn-es" class="active">ES</button>
+    <button id="btn-en">EN</button>
+  </div>
   <div id="map"></div>
 
   <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
   <script>
-    console.log('Leaflet version:', L.version);
-
     const map = L.map('map').setView([36.7213, -4.4214], 13);
 
-    L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
       attribution: '&copy; OpenStreetMap contributors & CartoDB',
       maxZoom: 19,
     }).addTo(map);
