@@ -31,13 +31,13 @@
     map.getPane('labels').style.pointerEvents = 'none';
 
     // Capa base con colores pero sin etiquetas (agua, verde, calles)
-    const baseLayer = L.tileLayer(
-      'https://{s}.basemaps.cartocdn.com/rastertiles/voyager_nolabels/{z}/{x}/{y}{r}.png',
-      {
-        attribution: '&copy; OpenStreetMap contributors & CartoDB',
-        maxZoom: 19,
-      }
-    ).addTo(map);
+  const baseLayer = L.tileLayer(
+  'https://{s}.basemaps.cartocdn.com/rastertiles/voyager_nolabels/{z}/{x}/{y}{r}.png',
+  {
+    attribution: '&copy; OpenStreetMap contributors & CartoDB',
+    maxZoom: 19,
+  }
+).addTo(map);
 
     // Datos con descripciones en español y en inglés
     const galerias = [
