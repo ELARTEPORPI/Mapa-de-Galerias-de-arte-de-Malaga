@@ -39,12 +39,22 @@
   </div>
 
   <div id="map"></div>
+  <div id="update-date" style="text-align:center; margin:8px 0; font-size: 0.9em; color: #555;">
+  Última actualización: <span id="last-update"></span>
+</div>
 <div id="gallery-select-container" style="padding: 10px; background: #f7f7f7; border-top: 1px solid #ccc;">
   <label for="gallery-select" style="font-weight: bold;">Selecciona una galería:</label>
   <select id="gallery-select" style="width: 100%; max-width: 400px; padding: 6px; margin-top: 5px;">
     <option value="">-- Elige una galería --</option>
   </select>
 </div>
+ <script>
+    const fechaSpan = document.getElementById('last-update');
+    const fecha = new Date();
+    const opciones = { year: 'numeric', month: 'long', day: 'numeric' };
+    fechaSpan.textContent = fecha.toLocaleDateString('es-ES', opciones);
+  </script>
+</body>
   <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
   <script>
     // Inicializar mapa
