@@ -36,9 +36,24 @@
 </head>
 <body>
 
-  <div id="lang-buttons">
-    <button id="btn-es" class="active">ES</button>
-    <button id="btn-en">EN</button>
+   <!-- Botón de idioma -->
+  <div id="language-toggle" style="
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 1000;
+  ">
+    <button id="toggle-language" style="
+      background-color: white;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      padding: 6px 12px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+      cursor: pointer;
+      font-weight: bold;
+    ">
+      EN
+    </button>
   </div>
   <div id="map"></div>
 
