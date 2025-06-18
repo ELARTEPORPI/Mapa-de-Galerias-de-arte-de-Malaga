@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
   <meta charset="utf-8" />
   <title>Mapa de Galerías de Arte - Multilenguaje</title>
@@ -10,10 +10,9 @@
       margin: 0; padding: 0; font-family: Arial, sans-serif;
     }
     #map {
-      height: 100vh;
+      height: 500px;
       width: 100%;
     }
-    /* Botón toggle idioma */
     #language-toggle {
       position: absolute;
       top: 10px;
@@ -29,132 +28,140 @@
       cursor: pointer;
       font-weight: bold;
     }
+    #gallery-select-container {
+      padding: 10px;
+      background: #f7f7f7;
+      border-top: 1px solid #ccc;
+      max-width: 400px;
+      margin: 10px auto;
+    }
+    #update-date {
+      text-align: center;
+      margin: 8px 0;
+      font-size: 0.9em;
+      color: #555;
+    }
   </style>
 </head>
 <body>
 
-  <!-- Botón toggle idioma -->
+  <!-- Botón idioma -->
   <div id="language-toggle">
     <button id="toggle-language">EN</button>
   </div>
 
+  <!-- Mapa -->
   <div id="map"></div>
-  
-  <div id="update-date" style="text-align:center; margin:8px 0; font-size: 0.9em; color: #555;">
-  Última actualización: <span id="last-update"></span>
-</div>
 
-<div id="gallery-select-container" style="padding: 10px; background: #f7f7f7; border-top: 1px solid #ccc;">
-  <label for="gallery-select" style="font-weight: bold;">Selecciona una galería:</label>
-  <select id="gallery-select" style="width: 100%; max-width: 400px; padding: 6px; margin-top: 5px;">
-    <option value="">-- Elige una galería --</option>
-  </select>
-</div>
- <script>
+  <!-- Lista de selección de galería -->
+  <div id="gallery-select-container">
+    <label for="gallery-select" style="font-weight: bold;">Selecciona una galería:</label>
+    <select id="gallery-select" style="width: 100%; padding: 6px; margin-top: 5px;">
+      <option value="">-- Elige una galería --</option>
+    </select>
+  </div>
+
+  <!-- Fecha de última actualización -->
+  <div id="update-date">
+    Última actualización: <span id="last-update"></span>
+  </div>
+
+  <!-- Scripts -->
+  <script>
     const fechaSpan = document.getElementById('last-update');
     const fecha = new Date();
     const opciones = { year: 'numeric', month: 'long', day: 'numeric' };
     fechaSpan.textContent = fecha.toLocaleDateString('es-ES', opciones);
   </script>
-</body>
+
   <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
   <script>
-    // Inicializar mapa
+
     const map = L.map('map').setView([36.7213, -4.4214], 13);
 
     L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
       attribution: '&copy; OpenStreetMap contributors & CartoDB',
       maxZoom: 19,
     }).addTo(map);
+  </script>
 
-    // Datos con descripciones en español y en inglés
+<script>
+  const gallerySelect = document.getElementById('gallery-select');
+  let markers = [];
+  let currentLang = 'es';
+</script>
 
-const gallerySelect = document.getElementById('gallerySelect');
-let markers = [];
-let currentLang = 'es'; // puedes cambiar esto dinámicamente si tienes selector de idioma
+<script>
+fetch('galerias.json')
+  .then(response => response.json())
+  .then(galerias => {
+    const markers = [];
 
- fetch('galerias.json')
-    .then(response => response.json())
-    .then(galerias => {
-      // Rellenar la lista con las galerías
-      galerias.forEach((galeria, index) => {
-        const option = document.createElement('option');
-        option.value = index;  // guardamos el índice para referencia
-        option.textContent = galeria.nombre;
-        gallerySelect.appendChild(option);
-      });
+    const gallerySelect = document.getElementById('gallery-select');
+    const toggleBtn = document.getElementById('toggle-language');
 
-      // Función para mostrar marcadores
-      function showMarkers() {
-        // limpiar marcadores anteriores
-        markers.forEach(m => map.removeLayer(m));
-        markers = [];
+    galerias.forEach((galeria, index) => {
+      const marker = L.marker([galeria.lat, galeria.lng]).addTo(map);
+      marker.bindPopup(`
+        <b>${galeria.nombre}</b><br>
+        <span class="popup-es">${galeria.descripcion_es}</span>
+        <span class="popup-en" style="display:none;">${galeria.descripcion_en}</span>
+      `);
+      markers.push(marker);
 
-        galerias.forEach(galeria => {
-          const descripcion = currentLang === 'es' ? galeria.descripcion_es : galeria.descripcion_en;
-
-          const marker = L.marker([galeria.lat, galeria.lng])
-            .addTo(map)
-            .bindPopup(`<b>${galeria.nombre}</b><br>${descripcion}`);
-
-          markers.push(marker);
-        });
-      }
-
-      showMarkers(); // Mostrar inicialmente los marcadores
-
-      // Evento al cambiar la galería seleccionada
-      gallerySelect.addEventListener('change', () => {
-        const selectedIndex = gallerySelect.value;
-        if (selectedIndex === "") return; // nada seleccionado
-
-        const galeria = galerias[selectedIndex];
-        const latLng = [galeria.lat, galeria.lng];
-
-        map.setView(latLng, 16);
-        markers[selectedIndex].openPopup();
-      });
-    })
-    .catch(error => console.error('Error cargando galerías:', error));
-
-  // Botón toggle idioma
-  const toggleBtn = document.getElementById('toggle-language');
-
-  function updateButtonText() {
-    toggleBtn.textContent = currentLang === 'es' ? 'EN' : 'ES';
-  }
-
-  toggleBtn.addEventListener('click', () => {
-    currentLang = currentLang === 'es' ? 'en' : 'es';
-    updateButtonText();
-    showMarkers();
-  });
-
-  // Inicializa texto del botón
-  updateButtonText();
-
-  // Mostrar la ubicación del usuario
-  if ("geolocation" in navigator) {
-    navigator.geolocation.getCurrentPosition(position => {
-      const userLat = position.coords.latitude;
-      const userLng = position.coords.longitude;
-
-      const userMarker = L.circleMarker([userLat, userLng], {
-        radius: 8,
-        fillColor: "#3388ff",
-        color: "#fff",
-        weight: 2,
-        opacity: 1,
-        fillOpacity: 0.9
-      }).addTo(map).bindPopup(currentLang === 'es' ? "Tu ubicación" : "Your location");
-
-      map.setView([userLat, userLng], 14);
-    }, error => {
-      console.log("No se pudo obtener la ubicación: ", error.message);
+      const option = document.createElement('option');
+      option.value = index;
+      option.textContent = galeria.nombre;
+      gallerySelect.appendChild(option);
     });
-  } else {
-    console.log("Geolocalización no está disponible en este navegador.");
-  }
+
+    gallerySelect.addEventListener('change', () => {
+      const idx = gallerySelect.value;
+      if (idx !== '') {
+        markers[idx].openPopup();
+        map.setView(markers[idx].getLatLng(), 16);
+      }
+    });
+
+    toggleBtn.addEventListener('click', () => {
+      currentLang = currentLang === 'es' ? 'en' : 'es';
+
+      document.querySelectorAll('.popup-es').forEach(el => {
+        el.style.display = currentLang === 'es' ? '' : 'none';
+      });
+
+      document.querySelectorAll('.popup-en').forEach(el => {
+        el.style.display = currentLang === 'en' ? '' : 'none';
+      });
+
+      toggleBtn.textContent = currentLang === 'es' ? 'EN' : 'ES';
+    });
+  })
+  .catch(error => console.error('Error cargando galerías:', error));
+
+
+// Mostrar ubicación del usuario (esto puedes dejarlo tal cual si ya funciona):
+if ("geolocation" in navigator) {
+  navigator.geolocation.getCurrentPosition(position => {
+    const userLat = position.coords.latitude;
+    const userLng = position.coords.longitude;
+
+    const userMarker = L.circleMarker([userLat, userLng], {
+      radius: 8,
+      fillColor: "#3388ff",
+      color: "#fff",
+      weight: 2,
+      opacity: 1,
+      fillOpacity: 0.9
+    }).addTo(map).bindPopup(currentLang === 'es' ? "Tu ubicación" : "Your location");
+
+    map.setView([userLat, userLng], 14);
+  }, error => {
+    console.log("No se pudo obtener la ubicación: ", error.message);
+  });
+} else {
+  console.log("Geolocalización no está disponible en este navegador.");
+}
 </script>
 </body>
 </html>
