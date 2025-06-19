@@ -152,21 +152,21 @@
   }
 
   // Cambiar idioma al hacer clic en el botón
-  toggleBtn.addEventListener('click', () => {
-    currentLang = currentLang === 'es' ? 'en' : 'es';
+toggleBtn.addEventListener('click', () => {
+  currentLang = currentLang === 'es' ? 'en' : 'es';
 
-    document.querySelectorAll('.popup-es').forEach(el => {
-      el.style.display = currentLang === 'es' ? '' : 'none';
-    });
-
-    document.querySelectorAll('.popup-en').forEach(el => {
-      el.style.display = currentLang === 'en' ? '' : 'none';
-    });
-
-    toggleBtn.textContent = currentLang === 'es' ? 'EN' : 'ES';
-    updateStaticTexts();
+  document.querySelectorAll('.popup-es').forEach(el => {
+    el.style.display = currentLang === 'es' ? '' : 'none';
   });
 
+  document.querySelectorAll('.popup-en').forEach(el => {
+    el.style.display = currentLang === 'en' ? '' : 'none';
+  });
+
+  toggleBtn.textContent = currentLang === 'es' ? 'EN' : 'ES';
+
+  updateStaticTexts();
+});
   // Inicializar textos al cargar
   updateStaticTexts();
 </script>
