@@ -72,26 +72,25 @@ fetch('galerias.json')
     });
 
     gallerySelect.addEventListener('change', () => {
-   const idx = gallerySelect.value;
+  const idx = gallerySelect.value;
   if (idx !== '') {
     markers[idx].openPopup();
     map.setView(markers[idx].getLatLng(), 16);
-      }
-    });
+  }
+});
 
     // Aquí se sincronizan los popups al abrirse
-    map.on('popupopen', e => {
-     const popupEl = markers[idx].getPopup().getElement();
-    if (popupEl) {
-      popupEl.querySelectorAll('.popup-es').forEach(el => {
-        el.style.display = currentLang === 'es' ? '' : 'none';
-      });
-      popupEl.querySelectorAll('.popup-en').forEach(el => {
-        el.style.display = currentLang === 'en' ? '' : 'none';
-        });
-      }
+map.on('popupopen', e => {
+  const popupEl = e.popup.getElement(); // obtiene el elemento del popup abierto
+  if (popupEl) {
+    popupEl.querySelectorAll('.popup-es').forEach(el => {
+      el.style.display = currentLang === 'es' ? '' : 'none';
     });
-  })
+    popupEl.querySelectorAll('.popup-en').forEach(el => {
+      el.style.display = currentLang === 'en' ? '' : 'none';
+    });
+  }
+})
   .catch(error => console.error('Error cargando galerías:', error));
   // Mostrar ubicación del usuario
   if ("geolocation" in navigator) {
@@ -137,4 +136,4 @@ fetch('galerias.json')
     }
   });
 }); 
-
+});
