@@ -50,48 +50,49 @@ document.addEventListener('DOMContentLoaded', () => {
   // Inicializar textos
   updateStaticTexts();
 
-  // Cargar galerías y crear marcadores
-  fetch('galerias.json')
-    .then(response => response.json())
-    .then(galerias => {
-      const markers = [];
+// Cargar galerías y crear marcadores
+fetch('galerias.json')
+  .then(response => response.json())
+  .then(galerias => {
+    const markers = [];
 
-      galerias.forEach((galeria, index) => {
-        const marker = L.marker([galeria.lat, galeria.lng]).addTo(map);
-        marker.bindPopup(`
-          <b>${galeria.nombre}</b><br>
-          <span class="popup-es">${galeria.descripcion_es}</span>
-          <span class="popup-en" style="display:none;">${galeria.descripcion_en}</span>
-        `);
-        markers.push(marker);
+    galerias.forEach((galeria, index) => {
+      const marker = L.marker([galeria.lat, galeria.lng]).addTo(map);
+      marker.bindPopup(`
+        <b>${galeria.nombre}</b><br>
+        <span class="popup-es">${galeria.descripcion_es}</span>
+        <span class="popup-en" style="display:none;">${galeria.descripcion_en}</span>
+      `);
+      markers.push(marker);
 
-        const option = document.createElement('option');
-        option.value = index;
-        option.textContent = galeria.nombre;
-        gallerySelect.appendChild(option);
-      });
+      const option = document.createElement('option');
+      option.value = index;
+      option.textContent = galeria.nombre;
+      gallerySelect.appendChild(option);
+    });
 
-      gallerySelect.addEventListener('change', () => {
-  const idx = gallerySelect.value;
-  if (idx !== '') {
-    markers[idx].openPopup();
-    map.setView(markers[idx].getLatLng(), 16);
+    gallerySelect.addEventListener('change', () => {
+      const idx = gallerySelect.value;
+      if (idx !== '') {
+        markers[idx].openPopup();
+        map.setView(markers[idx].getLatLng(), 16);
+      }
+    });
 
-    // Sincronizar idioma de la descripción en el popup abierto
-    const popupEl = markers[idx].getPopup().getElement();
-    if (popupEl) {
-      popupEl.querySelectorAll('.popup-es').forEach(el => {
-        el.style.display = currentLang === 'es' ? '' : 'none';
-      });
-      popupEl.querySelectorAll('.popup-en').forEach(el => {
-        el.style.display = currentLang === 'en' ? '' : 'none';
-      });
-    }
-  }
-});
-})
-    .catch(error => console.error('Error cargando galerías:', error));
-
+    // Aquí se sincronizan los popups al abrirse
+    map.on('popupopen', e => {
+      const popupEl = e.popup.getElement();
+      if (popupEl) {
+        popupEl.querySelectorAll('.popup-es').forEach(el => {
+          el.style.display = currentLang === 'es' ? '' : 'none';
+        });
+        popupEl.querySelectorAll('.popup-en').forEach(el => {
+          el.style.display = currentLang === 'en' ? '' : 'none';
+        });
+      }
+    });
+  })
+  .catch(error => console.error('Error cargando galerías:', error));
   // Mostrar ubicación del usuario
   if ("geolocation" in navigator) {
     navigator.geolocation.getCurrentPosition(position => {
