@@ -31,7 +31,7 @@
       font-weight: bold;
     }
    #gallery-select-container {
-  padding: 6px 10px;
+  padding: 4px 10px;
   background: #f7f7f7;
   border-top: 1px solid #ccc;
   max-width: 400px;
@@ -43,8 +43,8 @@
   text-align: center;
   font-size: 0.85em;
   color: #555;
-  padding: 6px;
-  margin-bottom: 10px;
+  padding: 4px 0;
+  margin-bottom: 4px;
 }
 
 /* Envolver los elementos en un contenedor fijo abajo */
@@ -58,19 +58,16 @@
    padding: 6px 0; /* más compacto */
   font-size: 14px;
   }
+     .gallery-label {
+      font-weight: bold;
+    }
 
-#gallery-select-container {
-  padding: 4px 10px;
-  max-width: 400px;
-  margin: 0 auto;
-}
+    .gallery-select {
+      width: 100%;
+      padding: 6px;
+      margin-top: 5px;
+    }
 
-#update-date {
-  text-align: center;
-  font-size: 0.85em;
-  color: #555;
-  margin-top: 4px;
-}
   .leaflet-control-attribution {
   bottom: 50px !important; /* Lo subimos un poco */
 }
@@ -89,10 +86,10 @@
  <!-- Contenedor fijo abajo para selector y fecha -->
 <div id="bottom-ui">
   <div id="gallery-select-container">
-    <label for="gallery-select" style="font-weight: bold;">Selecciona una galería:</label>
-    <select id="gallery-select" style="width: 100%; padding: 6px; margin-top: 5px;">
-      <option value="">-- Elige una galería --</option>
-    </select>
+   <label for="gallery-select" class="gallery-label">Selecciona una galería:</label>
+  <select id="gallery-select" class="gallery-select">
+  <option value="">-- Elige una galería --</option>
+</select>
   </div>
 
   <div id="update-date">
@@ -171,11 +168,6 @@ toggleBtn.addEventListener('click', () => {
   updateStaticTexts();
 </script>
 
-  // Ejecutar al cargar para mostrar textos en español
-  updateStaticTexts();
-
-  // Aquí sigue el resto de tu código (carga galerías, eventos, toggle idioma...)
-</script>
 
 
 <script>
