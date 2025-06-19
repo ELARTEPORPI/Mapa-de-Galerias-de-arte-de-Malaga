@@ -72,12 +72,12 @@ document.addEventListener('DOMContentLoaded', () => {
       });
 
       gallerySelect.addEventListener('change', () => {
-        const idx = gallerySelect.value;
-        if (idx !== '') {
-          markers[idx].openPopup();
-          map.setView(markers[idx].getLatLng(), 16);
-        }
-         // Sincronizar idioma de la descripción en el popup abierto
+  const idx = gallerySelect.value;
+  if (idx !== '') {
+    markers[idx].openPopup();
+    map.setView(markers[idx].getLatLng(), 16);
+
+    // Sincronizar idioma de la descripción en el popup abierto
     const popupEl = markers[idx].getPopup().getElement();
     if (popupEl) {
       popupEl.querySelectorAll('.popup-es').forEach(el => {
@@ -87,8 +87,9 @@ document.addEventListener('DOMContentLoaded', () => {
         el.style.display = currentLang === 'en' ? '' : 'none';
       });
     }
-      });
-    })
+  }
+});
+})
     .catch(error => console.error('Error cargando galerías:', error));
 
   // Mostrar ubicación del usuario
@@ -134,4 +135,5 @@ document.addEventListener('DOMContentLoaded', () => {
       userMarker.setPopupContent(currentLang === 'es' ? "Tu ubicación" : "Your location");
     }
   });
-});
+}); 
+
