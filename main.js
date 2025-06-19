@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
     attribution: '&copy; OpenStreetMap contributors & CartoDB',
     maxZoom: 19,
   }).addTo(map);
-});
+
   const toggleBtn = document.getElementById('toggle-language');
   const gallerySelectLabel = document.querySelector('label[for="gallery-select"]');
   const gallerySelect = document.getElementById('gallery-select');
@@ -50,50 +50,50 @@ document.addEventListener('DOMContentLoaded', () => {
   // Inicializar textos
   updateStaticTexts();
 
-// Cargar galerías y crear marcadores
-fetch('galerias.json')
-  .then(response => response.json())
-  .then(galerias => {
-    const markers = [];
+  // Cargar galerías y crear marcadores
+  fetch('galerias.json')
+    .then(response => response.json())
+    .then(galerias => {
+      const markers = [];
 
-    galerias.forEach((galeria, index) => {
-      const marker = L.marker([galeria.lat, galeria.lng]).addTo(map);
-      marker.bindPopup(`
-        <b>${galeria.nombre}</b><br>
-        <span class="popup-es">${galeria.descripcion_es}</span>
-        <span class="popup-en" style="display:none;">${galeria.descripcion_en}</span>
-      `);
-      markers.push(marker);
+      galerias.forEach((galeria, index) => {
+        const marker = L.marker([galeria.lat, galeria.lng]).addTo(map);
+        marker.bindPopup(`
+          <b>${galeria.nombre}</b><br>
+          <span class="popup-es">${galeria.descripcion_es}</span>
+          <span class="popup-en" style="display:none;">${galeria.descripcion_en}</span>
+        `);
+        markers.push(marker);
 
-      const option = document.createElement('option');
-      option.value = index;
-      option.textContent = galeria.nombre;
-      gallerySelect.appendChild(option);
-    });
+        const option = document.createElement('option');
+        option.value = index;
+        option.textContent = galeria.nombre;
+        gallerySelect.appendChild(option);
+      });
 
-    gallerySelect.addEventListener('change', () => {
-  const idx = gallerySelect.value;
-  if (idx !== '') {
-    markers[idx].openPopup();
-    map.setView(markers[idx].getLatLng(), 16);
-  }
-});
+      // Al seleccionar una galería
+      gallerySelect.addEventListener('change', () => {
+        const idx = gallerySelect.value;
+        if (idx !== '') {
+          markers[idx].openPopup();
+          map.setView(markers[idx].getLatLng(), 16);
+        }
+      });
 
-    // Aquí se sincronizan los popups al abrirse
-map.on('popupopen', e => {
-  const popupEl = e.popup.getElement(); // obtiene el elemento del popup abierto
-  if (popupEl) {
-    popupEl.querySelectorAll('.popup-es').forEach(el => {
-      el.style.display = currentLang === 'es' ? '' : 'none';
-    });
-    popupEl.querySelectorAll('.popup-en').forEach(el => {
-      el.style.display = currentLang === 'en' ? '' : 'none';
-       });
-      }
-    });
-  })
-  .catch(error => console.error('Error cargando galerías:', error));
-
+      // Sincronizar idioma del popup al abrirse
+      map.on('popupopen', e => {
+        const popupEl = e.popup.getElement();
+        if (popupEl) {
+          popupEl.querySelectorAll('.popup-es').forEach(el => {
+            el.style.display = currentLang === 'es' ? '' : 'none';
+          });
+          popupEl.querySelectorAll('.popup-en').forEach(el => {
+            el.style.display = currentLang === 'en' ? '' : 'none';
+          });
+        }
+      });
+    })
+    .catch(error => console.error('Error cargando galerías:', error));
 
   // Mostrar ubicación del usuario
   if ("geolocation" in navigator) {
@@ -119,37 +119,24 @@ map.on('popupopen', e => {
   }
 
   // Cambiar idioma al hacer clic en el botón
- toggleBtn.addEventListener('click', () => {
-  currentLang = currentLang === 'es' ? 'en' : 'es';
+  toggleBtn.addEventListener('click', () => {
+    currentLang = currentLang === 'es' ? 'en' : 'es';
 
-  document.querySelectorAll('.popup-es').forEach(el => {
-    el.style.display = currentLang === 'es' ? '' : 'none';
-  });
+    document.querySelectorAll('.popup-es').forEach(el => {
+      el.style.display = currentLang === 'es' ? '' : 'none';
+    });
 
-  document.querySelectorAll('.popup-en').forEach(el => {
-    el.style.display = currentLang === 'en' ? '' : 'none';
-  });
+    document.querySelectorAll('.popup-en').forEach(el => {
+      el.style.display = currentLang === 'en' ? '' : 'none';
+    });
 
-  toggleBtn.textContent = currentLang === 'es' ? 'EN' : 'ES';
+    toggleBtn.textContent = currentLang === 'es' ? 'EN' : 'ES';
 
-  updateStaticTexts();
+    updateStaticTexts();
 
-  if (userMarker) {
-    userMarker.setPopupContent(currentLang === 'es' ? "Tu ubicación" : "Your location");
-  }
-
-  // Actualizar popup abierto para que muestre la descripción correcta
-  const openPopup = map._popup; // popup abierto actualmente
-  if (openPopup) {
-    const popupEl = openPopup.getElement();
-    if (popupEl) {
-      popupEl.querySelectorAll('.popup-es').forEach(el => {
-        el.style.display = currentLang === 'es' ? '' : 'none';
-      });
-      popupEl.querySelectorAll('.popup-en').forEach(el => {
-        el.style.display = currentLang === 'en' ? '' : 'none';
-      });
+    if (userMarker) {
+      userMarker.setPopupContent(currentLang === 'es' ? "Tu ubicación" : "Your location");
     }
-  }
+  });
 });
 
