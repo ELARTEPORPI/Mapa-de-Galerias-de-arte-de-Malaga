@@ -1,0 +1,65 @@
+     body {
+      margin: 0; padding: 0; font-family: Arial, sans-serif;
+    }
+    #map {
+  position: absolute;
+  top: 0;
+  bottom: 60px; /* espacio para el #bottom-ui */
+  width: 100%;
+    }
+    #language-toggle {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      z-index: 1000;
+    }
+    #language-toggle button {
+      background-color: white;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      padding: 6px 12px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+      cursor: pointer;
+      font-weight: bold;
+    }
+   #gallery-select-container {
+  padding: 4px 10px;
+  background: #f7f7f7;
+  border-top: 1px solid #ccc;
+  max-width: 400px;
+  margin: 0 auto;
+  font-size: 14px;
+}
+
+#update-date {
+  text-align: center;
+  font-size: 0.85em;
+  color: #555;
+  padding: 4px 0;
+  margin-bottom: 4px;
+}
+
+/* Envolver los elementos en un contenedor fijo abajo */
+#bottom-ui {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  background: #f7f7f7;
+  box-shadow: 0 -2px 5px rgba(0,0,0,0.1);
+  z-index: 500;
+   padding: 6px 0; /* más compacto */
+  font-size: 14px;
+  }
+     .gallery-label {
+      font-weight: bold;
+    }
+
+    .gallery-select {
+      width: 100%;
+      padding: 6px;
+      margin-top: 5px;
+    }
+
+  .leaflet-control-attribution {
+  bottom: 40px !important; 
+}
