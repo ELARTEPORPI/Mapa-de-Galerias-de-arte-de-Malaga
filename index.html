@@ -148,7 +148,7 @@
     lastUpdateDiv.innerHTML = `${t.lastUpdate} <span id="last-update">${fechaFormateada}</span>`;
   }
 
-  // Cambiar idioma al hacer clic en el botón
+// Cambiar idioma al hacer clic en el botón
 toggleBtn.addEventListener('click', () => {
   currentLang = currentLang === 'es' ? 'en' : 'es';
 
@@ -163,9 +163,12 @@ toggleBtn.addEventListener('click', () => {
   toggleBtn.textContent = currentLang === 'es' ? 'EN' : 'ES';
 
   updateStaticTexts();
+
+  if (userMarker) {
+    userMarker.setPopupContent(currentLang === 'es' ? "Tu ubicación" : "Your location");
+  }
 });
-  // Inicializar textos al cargar
-  updateStaticTexts();
+
 </script>
 
 
@@ -202,36 +205,20 @@ fetch('galerias.json')
       }
     });
 
-    toggleBtn.addEventListener('click', () => {
-      currentLang = currentLang === 'es' ? 'en' : 'es';
-
-      document.querySelectorAll('.popup-es').forEach(el => {
-        el.style.display = currentLang === 'es' ? '' : 'none';
-      });
-
-      document.querySelectorAll('.popup-en').forEach(el => {
-        el.style.display = currentLang === 'en' ? '' : 'none';
-      });
-
-      toggleBtn.textContent = currentLang === 'es' ? 'EN' : 'ES';
-      // Cambiar también textos estáticos del HTML
-document.querySelector('label[for="gallery-select"]').textContent =
-  currentLang === 'es' ? 'Selecciona una galería:' : 'Select a gallery:';
-
-document.getElementById('update-date').firstChild.textContent =
-  currentLang === 'es' ? 'Última actualización: ' : 'Last update: ';
-    });
   })
   .catch(error => console.error('Error cargando galerías:', error));
+</Script>
 
+<script>
+let userMarker = null;
 
-// Mostrar ubicación del usuario (esto puedes dejarlo tal cual si ya funciona):
+// Mostrar ubicación del usuario
 if ("geolocation" in navigator) {
   navigator.geolocation.getCurrentPosition(position => {
     const userLat = position.coords.latitude;
     const userLng = position.coords.longitude;
 
-    const userMarker = L.circleMarker([userLat, userLng], {
+    userMarker = L.circleMarker([userLat, userLng], {
       radius: 8,
       fillColor: "#3388ff",
       color: "#fff",
