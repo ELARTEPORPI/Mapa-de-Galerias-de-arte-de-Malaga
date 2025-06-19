@@ -10,8 +10,10 @@
       margin: 0; padding: 0; font-family: Arial, sans-serif;
     }
     #map {
-      height: 500px;
-      width: 100%;
+  position: absolute;
+  top: 0;
+  bottom: 60px; /* espacio para el #bottom-ui */
+  width: 100%;
     }
     #language-toggle {
       position: absolute;
@@ -53,6 +55,21 @@
   background: #f7f7f7;
   box-shadow: 0 -2px 5px rgba(0,0,0,0.1);
   z-index: 500;
+   padding: 6px 0; /* más compacto */
+  font-size: 14px;
+  }
+
+#gallery-select-container {
+  padding: 4px 10px;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+#update-date {
+  text-align: center;
+  font-size: 0.85em;
+  color: #555;
+  margin-top: 4px;
 }
   </style>
 </head>
