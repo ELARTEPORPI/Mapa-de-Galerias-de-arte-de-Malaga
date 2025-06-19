@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
     attribution: '&copy; OpenStreetMap contributors & CartoDB',
     maxZoom: 19,
   }).addTo(map);
-
+});
   const toggleBtn = document.getElementById('toggle-language');
   const gallerySelectLabel = document.querySelector('label[for="gallery-select"]');
   const gallerySelect = document.getElementById('gallery-select');
@@ -152,4 +152,4 @@ map.on('popupopen', e => {
     }
   }
 });
-});
+
