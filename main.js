@@ -88,10 +88,13 @@ map.on('popupopen', e => {
     });
     popupEl.querySelectorAll('.popup-en').forEach(el => {
       el.style.display = currentLang === 'en' ? '' : 'none';
+       });
+      }
     });
-  }
-})
+  })
   .catch(error => console.error('Error cargando galerías:', error));
+
+
   // Mostrar ubicación del usuario
   if ("geolocation" in navigator) {
     navigator.geolocation.getCurrentPosition(position => {
@@ -116,24 +119,37 @@ map.on('popupopen', e => {
   }
 
   // Cambiar idioma al hacer clic en el botón
-  toggleBtn.addEventListener('click', () => {
-    currentLang = currentLang === 'es' ? 'en' : 'es';
+ toggleBtn.addEventListener('click', () => {
+  currentLang = currentLang === 'es' ? 'en' : 'es';
 
-    document.querySelectorAll('.popup-es').forEach(el => {
-      el.style.display = currentLang === 'es' ? '' : 'none';
-    });
-
-    document.querySelectorAll('.popup-en').forEach(el => {
-      el.style.display = currentLang === 'en' ? '' : 'none';
-    });
-
-    toggleBtn.textContent = currentLang === 'es' ? 'EN' : 'ES';
-
-    updateStaticTexts();
-
-    if (userMarker) {
-      userMarker.setPopupContent(currentLang === 'es' ? "Tu ubicación" : "Your location");
-    }
+  document.querySelectorAll('.popup-es').forEach(el => {
+    el.style.display = currentLang === 'es' ? '' : 'none';
   });
-}); 
+
+  document.querySelectorAll('.popup-en').forEach(el => {
+    el.style.display = currentLang === 'en' ? '' : 'none';
+  });
+
+  toggleBtn.textContent = currentLang === 'es' ? 'EN' : 'ES';
+
+  updateStaticTexts();
+
+  if (userMarker) {
+    userMarker.setPopupContent(currentLang === 'es' ? "Tu ubicación" : "Your location");
+  }
+
+  // Actualizar popup abierto para que muestre la descripción correcta
+  const openPopup = map._popup; // popup abierto actualmente
+  if (openPopup) {
+    const popupEl = openPopup.getElement();
+    if (popupEl) {
+      popupEl.querySelectorAll('.popup-es').forEach(el => {
+        el.style.display = currentLang === 'es' ? '' : 'none';
+      });
+      popupEl.querySelectorAll('.popup-en').forEach(el => {
+        el.style.display = currentLang === 'en' ? '' : 'none';
+      });
+    }
+  }
+});
 });
