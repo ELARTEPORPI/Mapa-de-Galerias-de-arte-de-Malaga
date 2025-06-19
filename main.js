@@ -72,22 +72,22 @@ fetch('galerias.json')
     });
 
     gallerySelect.addEventListener('change', () => {
-      const idx = gallerySelect.value;
-      if (idx !== '') {
-        markers[idx].openPopup();
-        map.setView(markers[idx].getLatLng(), 16);
+   const idx = gallerySelect.value;
+  if (idx !== '') {
+    markers[idx].openPopup();
+    map.setView(markers[idx].getLatLng(), 16);
       }
     });
 
     // Aquí se sincronizan los popups al abrirse
     map.on('popupopen', e => {
-      const popupEl = e.popup.getElement();
-      if (popupEl) {
-        popupEl.querySelectorAll('.popup-es').forEach(el => {
-          el.style.display = currentLang === 'es' ? '' : 'none';
-        });
-        popupEl.querySelectorAll('.popup-en').forEach(el => {
-          el.style.display = currentLang === 'en' ? '' : 'none';
+     const popupEl = markers[idx].getPopup().getElement();
+    if (popupEl) {
+      popupEl.querySelectorAll('.popup-es').forEach(el => {
+        el.style.display = currentLang === 'es' ? '' : 'none';
+      });
+      popupEl.querySelectorAll('.popup-en').forEach(el => {
+        el.style.display = currentLang === 'en' ? '' : 'none';
         });
       }
     });
