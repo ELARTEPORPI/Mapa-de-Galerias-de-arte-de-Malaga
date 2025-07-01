@@ -75,10 +75,17 @@
   #gallery-select-container {
     width: auto;       /* que ocupe solo el espacio necesario */
     flex: 1 1 auto;    /* que pueda crecer y encogerse */
+    max-width: 180px;  /* limita ancho máximo para que no crezca mucho */
+    min-width: 120px;   /* no se encoge más de esto */
     margin-left: 0;    /* quitar márgenes automáticos para que no quede centrado */
     margin-right: 8px; /* pequeño espacio a la derecha para separar del botón */
   }
+  }
 
+  
+.gallery-select {
+    font-size: 13px;
+    max-width: 100%;  /* siempre dentro de su contenedor */
   #selector-bar {
     padding: 4px 8px 6px;
   }
