@@ -48,25 +48,18 @@
 
 /* Contenedor del selector con flex-grow para que ocupe el espacio central */
 #gallery-select-container {
-  flex: 1 1 auto;
-  max-width: 300px;
+  flex: 1;
+  max-width: 300px; /* límite máximo de ancho */
   margin: 0 8px;
 }
 
 .gallery-select {
-  width: 100%;
+  width: 100%; /* ocupa todo el ancho del contenedor limitado */
   padding: 4px 8px;
   font-size: 14px;
 }
 
-/* SOLO en móvil: que el contenedor crezca todo lo posible y el selector ocupe 100% */
-@media (max-width: 600px) {
-  #gallery-select-container {
-    flex: 1 1 100%; /* que el flex pueda crecer hasta 100% */
-    max-width: none; /* elimina la restricción de ancho */
-    margin: 0 8px;
-  }
-}
+
 
 /* Botón idioma fijo al tamaño de contenido */
 #language-toggle {
