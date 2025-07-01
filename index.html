@@ -49,12 +49,13 @@
 /* Contenedor del selector con flex-grow para que ocupe el espacio central */
 #gallery-select-container {
   flex: 1;
+  max-width: 300px; /* límite máximo de ancho */
   margin: 0 8px;
 }
 
-/* Selector ocupa el 100% de su contenedor */
+
 .gallery-select {
-  width: 100%;
+  width: 100%; /* ocupa todo el ancho del contenedor limitado */
   padding: 4px 8px;
   font-size: 14px;
 }
