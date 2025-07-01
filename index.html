@@ -47,46 +47,56 @@
   margin-bottom: 4px;
 }
 
-/* Envolver los elementos en un contenedor fijo abajo */
+/* Envolver los elementos en un contenedor fijo arriba */
 #top-ui {
   position: fixed;
-  top: 0;
-  left: 10px;       /* pegado a la izquierda con un pequeño margen */
+  top: 60px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  z-index: 500;
+  }
+
+#gallery-select-container {
   background: #f7f7f7;
-  padding: 6px 10px;
-  border-bottom: 1px solid #ccc;
-  z-index: 1000;
-  max-width: 320px;  /* ancho controlado para no ocupar mucho espacio */
-  width: auto;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  padding: 6px 12px;
+  border-radius: 8px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.1);
   font-size: 14px;
-  border-radius: 0 0 8px 8px;
+  max-width: 360px; /* más estrecho */
+  width: 100%;
+  text-align: center;
+  }
 
+.gallery-label {
+  font-weight: bold;
+  display: block;
+  margin-bottom: 4px;
+  }
 
-  .gallery-label {
-      font-weight: bold;
-    }
-
-    .gallery-select {
-      width: 100%;
-      padding: 6px;
-      margin-top: 4px;
-    }
+.gallery-select {
+  width: 100%;
+  padding: 6px;
+  font-size: 14px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  }
+    
 
 #map {
   position: absolute;
-  top: 48px;    /* deja espacio para el selector */
-  bottom: 60px; /* espacio para la fecha abajo */
+  top: 120px; /* antes era 0, ahora sube para dejar hueco */
+  bottom: 0;
   width: 100%;
-}
-}
+  }
+
 
 #language-toggle {
   position: fixed;
   top: 10px;
   right: 10px;
   z-index: 1100;
-}
+  }
 
   </style>
 </head>
