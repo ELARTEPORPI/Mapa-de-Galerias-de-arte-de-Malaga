@@ -60,6 +60,18 @@
   font-size: 14px;
 }
 
+/* Estilos para pantallas pequeñas (móviles) */
+@media (max-width: 600px) {
+  #gallery-select-container {
+    max-width: 100%; /* para que ocupe todo el ancho posible */
+    margin: 0 4px;   /* menos margen para móviles */
+  }
+
+  .gallery-select {
+    font-size: 16px; /* opcional: texto un poco más grande para móvil */
+  }
+}
+
 /* Botón idioma fijo al tamaño de contenido */
 #language-toggle {
   flex-shrink: 0;
