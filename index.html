@@ -33,7 +33,7 @@
 #selector-bar {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
   padding: 4px 8px 6px;
   max-width: 960px;  /* opcional, para no hacer la barra muy ancha */
   margin: 0 auto;    /* centrar horizontalmente */
@@ -50,13 +50,13 @@
 #gallery-select-container {
   /* No flex-grow para que no se estire */
   flex: 0 0 auto;    /* que no crezca ni se encoja */
-  width: 250px;      /* ancho del selector, ajusta a lo que quieras/
+  width: 200px;      /* ancho del selector, ajusta a lo que quieras/
   margin-left: auto;
   margin-right: auto;
 }
 
-.gallery-select {
-  width: 100%;       /* ocupa todo el ancho de su contenedor */
+.gallery-select {      /* ocupa todo el ancho de su contenedor */
+  width: 100%;     
   padding: 4px 8px;
   font-size: 14px;
 }
@@ -82,6 +82,11 @@
   top: 90px;  /* un poco más alto porque ahora top-ui es más alto */
   bottom: 0;
   width: 100%;
+}
+/* Mover el control de zoom de Leaflet */
+.leaflet-control-zoom {
+  top: 80px !important;
+  left: 8px !important;
 }
 </style>
 </head>
