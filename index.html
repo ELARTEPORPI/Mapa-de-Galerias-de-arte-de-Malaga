@@ -50,21 +50,24 @@
 #gallery-select-container {
   /* No flex-grow para que no se estire */
   flex: 0 0 auto;    /* que no crezca ni se encoja */
-  width: 200px;      /* ancho del selector, ajusta a lo que quieras/
+  width: 200px;      
   margin-left: auto;
   margin-right: auto;
+   box-sizing: border-box; /* para que el padding no aumente el ancho total, opcional */
 }
 
 .gallery-select {      /* ocupa todo el ancho de su contenedor */
   width: 100%;     
   padding: 4px 8px;
   font-size: 14px;
+   box-sizing: border-box; /* para que el padding no aumente el ancho total, opcional */
 }
 
 
 /* Botón idioma fijo al tamaño de contenido */
 #language-toggle {
   flex-shrink: 0;
+    display: block; /* asegurar que esté visible */
 }
 
 /* Ocultar label visualmente pero mantener accesibilidad */
