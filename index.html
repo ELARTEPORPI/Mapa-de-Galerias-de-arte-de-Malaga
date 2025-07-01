@@ -13,11 +13,12 @@
   position: fixed;
   top: 0;
   width: 100%;
-  
+
   background: #f7f7f7;
   z-index: 1000;
   box-shadow: 0 2px 6px rgba(0,0,0,0.1);
   font-size: 14px;
+  padding-bottom: 6px; /* para que la barra tenga algo de espacio */
 }
 
 /* Mensaje de actualización */
@@ -28,36 +29,39 @@
   padding: 6px 0 4px;
 }
 
-/* Fila con selector + botones */
+/* Contenedor flex para zoom + selector + idioma */
 #selector-bar {
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 4px 8px 6px;
+  max-width: 960px;  /* opcional, para no hacer la barra muy ancha */
+  margin: 0 auto;    /* centrar horizontalmente */
 }
 
 /* Botones laterales */
-#zoom-toggle,
-#toggle-language {
-  background: white;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  padding: 4px 8px;
-  font-weight: bold;
-  cursor: pointer;
+#zoom-controls {
+  display: flex;
+  align-items: center;
+  /* No le pongas ancho fijo, solo lo que ocupe su contenido */
 }
 
-/* Contenedor del selector */
+/* Contenedor del selector con flex-grow para que ocupe el espacio central */
 #gallery-select-container {
   flex: 1;
   margin: 0 8px;
 }
 
-/* Selector */
+/* Selector ocupa el 100% de su contenedor */
 .gallery-select {
   width: 100%;
   padding: 4px 8px;
   font-size: 14px;
+}
+
+/* Botón idioma fijo al tamaño de contenido */
+#language-toggle {
+  flex-shrink: 0;
 }
 
 /* Ocultar label visualmente pero mantener accesibilidad */
@@ -69,10 +73,10 @@
   white-space: nowrap;
 }
 
-/* Ajustar el mapa para no solaparlo con top-ui */
+/* Ajustar mapa para no solapar con top-ui */
 #map {
   position: absolute;
-  top: 70px;  /* ajusta según altura real del top-ui */
+  top: 90px;  /* un poco más alto porque ahora top-ui es más alto */
   bottom: 0;
   width: 100%;
 }
@@ -87,7 +91,6 @@
   </div>
 
   <div id="selector-bar">
-  
 
     <div id="gallery-select-container">
       <label for="gallery-select" class="visually-hidden">Selecciona una galería:</label>
