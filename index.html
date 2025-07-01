@@ -50,84 +50,97 @@
 /* Envolver los elementos en un contenedor fijo arriba */
 #top-ui {
   position: fixed;
-  top: 60px;
+  top: 0;
   width: 100%;
-  display: flex;
-  justify-content: center;
-  z-index: 500;
-  }
-
-#gallery-select-container {
+  
   background: #f7f7f7;
-  padding: 6px 12px;
-  border-radius: 8px;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+  z-index: 1000;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
   font-size: 14px;
-  max-width: 360px; /* más estrecho */
-  width: 100%;
+}
+
+/* Mensaje de actualización */
+#update-date {
   text-align: center;
-  }
+  font-size: 0.85em;
+  color: #555;
+  padding: 6px 0 4px;
+}
 
-.gallery-label {
+/* Fila con selector + botones */
+#selector-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 4px 8px 6px;
+}
+
+/* Botones laterales */
+#zoom-toggle,
+#toggle-language {
+  background: white;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  padding: 4px 8px;
   font-weight: bold;
-  display: block;
-  margin-bottom: 4px;
-  }
+  cursor: pointer;
+}
 
+/* Contenedor del selector */
+#gallery-select-container {
+  flex: 1;
+  margin: 0 8px;
+}
+
+/* Selector */
 .gallery-select {
   width: 100%;
-  padding: 6px;
+  padding: 4px 8px;
   font-size: 14px;
-  border-radius: 4px;
-  border: 1px solid #ccc;
-  }
-    
+}
 
+/* Ocultar label visualmente pero mantener accesibilidad */
+.visually-hidden {
+  position: absolute !important;
+  height: 1px; width: 1px;
+  overflow: hidden;
+  clip: rect(1px, 1px, 1px, 1px);
+  white-space: nowrap;
+}
+
+/* Ajustar el mapa para no solaparlo con top-ui */
 #map {
   position: absolute;
-  top: 120px; /* antes era 0, ahora sube para dejar hueco */
+  top: 70px;  /* ajusta según altura real del top-ui */
   bottom: 0;
   width: 100%;
-  }
-
-
-#language-toggle {
-  position: fixed;
-  top: 10px;
-  right: 10px;
-  z-index: 1100;
-  }
-
-  </style>
+}
+</style>
 </head>
 <body>
 
-  <!-- Botón idioma -->
-  <div id="language-toggle">
-    <button id="toggle-language">EN</button>
-  </div>
-
-<!-- Contenedor fijo arriba para selector -->
+<!-- Contenedor fijo arriba con actualización y selector -->
 <div id="top-ui">
-  <div id="gallery-select-container">
-    <label for="gallery-select" class="gallery-label">Selecciona una galería:</label>
-    <select id="gallery-select" class="gallery-select">
-      <option value="">-- Elige una galería --</option>
-    </select>
-  </div>
-</div>
-
-  <!-- Mapa -->
-  <div id="map"></div>
-
- <!-- Contenedor fijo abajo para selector y fecha -->
-<div id="bottom-ui">
-
-
   <div id="update-date">
     Última actualización: <span id="last-update"></span>
   </div>
+
+  <div id="selector-bar">
+    <button id="zoom-toggle">🔍</button>
+
+    <div id="gallery-select-container">
+      <label for="gallery-select" class="visually-hidden">Selecciona una galería:</label>
+      <select id="gallery-select" class="gallery-select">
+        <option value="">-- Elige una galería --</option>
+      </select>
+    </div>
+
+    <button id="toggle-language">EN</button>
+  </div>
 </div>
+
+<!-- Mapa -->
+<div id="map"></div>
 
 
 <!-- Scripts -->
