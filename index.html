@@ -49,22 +49,21 @@
 
 /* Envolver los elementos en un contenedor fijo abajo */
 #top-ui {
-  position:fixed;
-  top: 50px; /* Deja espacio para el botón de idioma que está a top:10px */
-  left: 50%;
-  transform: translateX(-50%);
+  position: fixed;
+  top: 0;
+  left: 10px;       /* pegado a la izquierda con un pequeño margen */
   background: #f7f7f7;
   padding: 6px 10px;
   border-bottom: 1px solid #ccc;
   z-index: 1000;
-  max-width: 400px;
-  width: 90%;
+  max-width: 320px;  /* ancho controlado para no ocupar mucho espacio */
+  width: auto;
   box-shadow: 0 2px 6px rgba(0,0,0,0.2);
   font-size: 14px;
   border-radius: 0 0 8px 8px;
-  }
 
-     .gallery-label {
+
+  .gallery-label {
       font-weight: bold;
     }
 
@@ -75,10 +74,17 @@
     }
 
 #map {
-  top: 110px; /* Suficiente espacio para el botón + selector */
-  bottom: 60px; /* espacio para el bottom-ui */
   position: absolute;
+  top: 48px;    /* deja espacio para el selector */
+  bottom: 60px; /* espacio para la fecha abajo */
   width: 100%;
+}
+
+#language-toggle {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  z-index: 1100;
 }
 
   </style>
