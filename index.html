@@ -70,6 +70,20 @@
     display: block; /* asegurar que esté visible */
 }
 
+/* MEDIA QUERY para móviles */
+@media (max-width: 600px) {
+  #gallery-select-container {
+    width: auto;       /* que ocupe solo el espacio necesario */
+    flex: 1 1 auto;    /* que pueda crecer y encogerse */
+    margin-left: 0;    /* quitar márgenes automáticos para que no quede centrado */
+    margin-right: 8px; /* pequeño espacio a la derecha para separar del botón */
+  }
+
+  #selector-bar {
+    padding: 4px 8px 6px;
+  }
+}
+
 /* Ocultar label visualmente pero mantener accesibilidad */
 .visually-hidden {
   position: absolute !important;
