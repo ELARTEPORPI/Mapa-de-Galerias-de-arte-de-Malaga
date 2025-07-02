@@ -113,11 +113,18 @@
       bottom: 0;
       width: 100%;
     }
-    /* Mover el control de zoom de Leaflet */
-    .leaflet-control-zoom {
-      top: 80px !important;
-      left: 8px !important;
-    }
+.leaflet-control-zoom-in,
+.leaflet-control-zoom-out {
+  width: 36px;          /* mismo ancho */
+  height: 36px;         /* misma altura */
+  line-height: 36px;    /* para centrar verticalmente el símbolo */
+  font-size: 24px;      /* tamaño de signo + y - */
+  text-align: center;   /* centrar horizontalmente */
+  padding: 0;           /* eliminar padding extra */
+  box-sizing: border-box;
+  font-weight: normal;  /* mismo grosor */
+  user-select: none;    /* evitar selección de texto al clicar */
+}
   </style>
 </head>
 <body>
