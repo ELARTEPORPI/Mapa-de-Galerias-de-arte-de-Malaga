@@ -83,10 +83,21 @@
     /* Media query para móviles */
 @media (max-width: 600px) {
 
-  /* 1. Mover botones zoom más abajo para que estén bajo el margen superior */
+  /* 1. Mover botones zoom nativos (si usas Leaflet nativo) más abajo */
   .leaflet-control-zoom {
     top: 110px !important;  /* Ajusta este valor para subir/bajar los botones */
     left: 8px !important;
+  }
+
+  /* 1b. Ajustar tamaño y estilo botones zoom personalizados #zoom-in y #zoom-out */
+  #zoom-in,
+  #zoom-out {
+    width: 30px !important;
+    height: 30px !important;
+    font-size: 20px !important;
+    padding: 0 !important;
+    text-align: center !important;
+    line-height: 30px !important;
   }
 
   /* 2. Selector centrado horizontalmente, tamaño fijo */
@@ -103,7 +114,7 @@
 
   /* 3. Botón idioma: mover ligeramente a la izquierda */
   #language-toggle {
-    margin-left: 10px;  /* reduce el margen izquierdo para moverlo a la izquierda */
+    margin-left: 10px !important;  /* reduce el margen izquierdo para moverlo a la izquierda */
     /* Opcional: para ajustes más finos, puedes usar:
     transform: translateX(-5px);
     */
