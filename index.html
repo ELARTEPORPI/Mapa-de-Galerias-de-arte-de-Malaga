@@ -81,29 +81,34 @@
     }
 
     /* Media query para móviles */
-    @media (max-width: 600px) {
-      #gallery-select-container {
-        width: auto;
-        flex: 1 1 auto;
-        max-width: 180px;
-        min-width: 120px;
-        margin-left: 0;
-        margin-right: 8px;
-      }
+@media (max-width: 600px) {
 
-      #language-toggle {
-        margin-left: 100px;
-      }
+  /* 1. Mover botones zoom más abajo para que estén bajo el margen superior */
+  .leaflet-control-zoom {
+    top: 110px !important;  /* Ajusta este valor para subir/bajar los botones */
+    left: 8px !important;
+  }
 
-      .gallery-select {
-        font-size: 13px;
-        max-width: 100%;
-      }
+  /* 2. Selector centrado horizontalmente, tamaño fijo */
+  #gallery-select-container {
+    flex: 0 0 auto;    /* que no crezca ni se encoja */
+    width: 180px;       /* tamaño fijo para controlar el ancho */
+    margin: 0 auto;     /* centrado horizontal */
+  }
 
-      #selector-bar {
-        padding: 4px 8px 6px;
-      }
-    }
+  /* Selector ocupa todo el ancho de su contenedor */
+  .gallery-select {
+    width: 100%;
+  }
+
+  /* 3. Botón idioma: mover ligeramente a la izquierda */
+  #language-toggle {
+    margin-left: 10px;  /* reduce el margen izquierdo para moverlo a la izquierda */
+    /* Opcional: para ajustes más finos, puedes usar:
+    transform: translateX(-5px);
+    */
+  }
+}
 
 
     .visually-hidden {
