@@ -18,7 +18,6 @@
       font-size: 14px;
       padding-bottom: 6px; /* para que la barra tenga algo de espacio */
     }
-body {background: purple !important;}
     /* Mensaje de actualización */
     #update-date {
       text-align: center;
@@ -114,24 +113,26 @@ body {background: purple !important;}
       width: 100%;
     }
 /* Forzar que ambos botones de zoom tengan el mismo tamaño */
+/* Forzar tamaño igual para ambos botones */
 .leaflet-control-zoom-in,
 .leaflet-control-zoom-out {
-  width: 32px !important;
-  height: 32px !important;
-  line-height: 32px !important;
-  font-size: 22px !important;
-  text-align: center !important;
+  width: 30px !important;
+  height: 30px !important;
+  line-height: 30px !important;
+  font-size: 20px !important;
   padding: 0 !important;
-  box-sizing: border-box !important;
+  text-align: center !important;
 }
 
-
-/* Opcional: igualamos el contenido centrado verticalmente */
-.leaflet-control-zoom-in span,
-.leaflet-control-zoom-out span {
-  display: inline-block !important;
-  line-height: 32px !important;
+/* Si quieres que el contenedor de zoom sea vertical y sin espacios extra */
+.leaflet-control-zoom {
+  display: flex !important;
+  flex-direction: column !important;
+  width: 30px !important;
+  height: 60px !important;
+  padding: 0 !important;
 }
+
   </style>
 </head>
 <body>
