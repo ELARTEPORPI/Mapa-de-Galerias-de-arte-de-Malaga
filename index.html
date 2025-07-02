@@ -5,7 +5,6 @@
   <title>Mapa de Galerías de Arte - Multilenguaje</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
-
   <style>
 
 
@@ -84,11 +83,9 @@
   #gallery-select-container {
     width: 140px;  /* ancho menor en móvil */
   }
-
   #language-toggle {
     right: 4px;   /* un poco menos margen derecha */
   }
-
   #zoom-controls {
     left: 4px;    /* margen izquierdo reducido */
   }
@@ -103,7 +100,6 @@
   white-space: nowrap;
 }
 
-
 /* Ajustar mapa para no solapar con top-ui */
 #map {
   position: absolute;
@@ -117,6 +113,7 @@
   top: 80px !important;
   left: 8px !important;
 }
+
 </style>
 </head>
 <body>
@@ -154,7 +151,7 @@
 <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 <script>
   // Crear mapa y capa base
-  const map = L.map('map').setView([36.7213, -4.4214], 13);
+const map = L.map('map', { zoomControl: false }).setView([36.7213, -4.4214], 13);
   L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
     attribution: '&copy; OpenStreetMap contributors & CartoDB',
     maxZoom: 19,
