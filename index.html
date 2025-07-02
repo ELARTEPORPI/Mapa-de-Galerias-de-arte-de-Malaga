@@ -114,30 +114,22 @@
       width: 100%;
     }
 /* Forzar que ambos botones de zoom tengan el mismo tamaño */
-.leaflet-control-zoom-in {
-  width: 32px;    /* ancho + */
-  height: 32px;   /* alto + */
-  font-size: 22px; 
-  line-height: 32px;
-  text-align: center;
-  padding: 0;
-  box-sizing: border-box;
-}
-
+.leaflet-control-zoom-in,
 .leaflet-control-zoom-out {
-  width: 28px;    /* ancho - */
-  height: 28px;   /* alto - */
-  font-size: 20px; 
-  line-height: 28px;
-  text-align: center;
-  padding: 0;
-  box-sizing: border-box;
+  width: 32px !important;
+  height: 32px !important;
+  line-height: 32px !important;
+  font-size: 22px !important;
+  text-align: center !important;
+  padding: 0 !important;
+  box-sizing: border-box !important;
 }
 
-/* Opcional: igualar el tamaño de fuente y quitar diferencias internas */
-.leaflet-control-zoom-in::after,
-.leaflet-control-zoom-out::after {
-  font-size: 20px;
+/* Opcional: igualamos el contenido centrado verticalmente */
+.leaflet-control-zoom-in span,
+.leaflet-control-zoom-out span {
+  display: inline-block !important;
+  line-height: 32px !important;
 }
   </style>
 </head>
