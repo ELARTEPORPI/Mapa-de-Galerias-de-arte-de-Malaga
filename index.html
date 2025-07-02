@@ -150,8 +150,8 @@
 <!-- Scripts -->
 <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 <script>
-  // Crear mapa y capa base
-const map = L.map('map', { zoomControl: false }).setView([36.7213, -4.4214], 13);
+  const map = L.map('map', { zoomControl: false }).setView([36.7213, -4.4214], 13);
+
   L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
     attribution: '&copy; OpenStreetMap contributors & CartoDB',
     maxZoom: 19,
