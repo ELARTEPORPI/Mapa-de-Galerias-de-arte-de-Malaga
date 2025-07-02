@@ -5,133 +5,131 @@
   <title>Mapa de Galerías de Arte - Multilenguaje</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
-
-<style>
-  /* Contenedor superior fijo */
-  #top-ui {
-    position: fixed;
-    top: 0;
-    width: 100%;
-    background: #f7f7f7;
-    z-index: 1000;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-    font-size: 14px;
-    padding-bottom: 6px;
-  }
-
-  #update-date {
-    text-align: center;
-    font-size: 0.85em;
-    color: #555;
-    padding: 6px 0 4px;
-  }
-
-  #selector-bar {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 4px 8px 6px;
-    max-width: 960px;
-    margin: 0 auto;
-  }
-
-  #zoom-controls {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 4px;
-  }
-
-  #gallery-select-container {
-    flex: 0 0 auto;
-    width: 200px;
-    margin-left: auto;
-    margin-right: auto;
-    box-sizing: border-box;
-  }
-
-  .gallery-select {
-    width: 100%;
-    padding: 4px 8px;
-    font-size: 14px;
-    box-sizing: border-box;
-  }
-
-  #language-toggle {
-    flex-shrink: 0;
-    display: block;
-    margin-left: 20px;
-  }
-
-  /* Estilos botones zoom personalizados */
-  #zoom-in,
-  #zoom-out {
-    width: 30px;
-    height: 30px;
-    font-size: 20px;
-    padding: 0;
-    text-align: center;
-    line-height: 30px;
-  }
-
-  /* Mapa adaptado a barra superior */
-  #map {
-    position: absolute;
-    top: 90px;
-    bottom: 0;
-    width: 100%;
-  }
-
-  /* Media query para móviles */
-  @media (max-width: 600px) {
-
-    /* Mover botones zoom nativos si se usan (en tu caso no, pero por si acaso) */
-    .leaflet-control-zoom {
-      top: 110px !important;
-      left: 8px !important;
+  <style>
+    /* Contenedor superior fijo */
+    #top-ui {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background: #f7f7f7;
+      z-index: 1000;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      font-size: 14px;
+      padding-bottom: 6px;
     }
 
-    /* Ajustar botones zoom personalizados en móvil */
-    #zoom-in,
-    #zoom-out {
-      width: 30px !important;
-      height: 30px !important;
-      font-size: 20px !important;
-      padding: 0 !important;
-      text-align: center !important;
-      line-height: 30px !important;
+    #update-date {
+      text-align: center;
+      font-size: 0.85em;
+      color: #555;
+      padding: 6px 0 4px;
     }
 
-    /* Selector centrado horizontal y tamaño fijo */
+    #selector-bar {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 4px 8px 6px;
+      max-width: 960px;
+      margin: 0 auto;
+    }
+
+    #zoom-controls {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+    }
+
     #gallery-select-container {
       flex: 0 0 auto;
-      width: 180px;
-      margin: 0 auto;
+      width: 200px;
+      margin-left: auto;
+      margin-right: auto;
+      box-sizing: border-box;
     }
 
     .gallery-select {
       width: 100%;
+      padding: 4px 8px;
+      font-size: 14px;
+      box-sizing: border-box;
     }
 
-    /* Botón idioma ligeramente más a la izquierda */
     #language-toggle {
-      margin-left: 5px !important;
+      flex-shrink: 0;
+      display: block;
+      margin-left: 20px;
     }
-  }
 
-  /* Ocultar label visualmente pero mantener accesibilidad */
-  .visually-hidden {
-    position: absolute !important;
-    height: 1px; width: 1px;
-    overflow: hidden;
-    clip: rect(1px, 1px, 1px, 1px);
-    white-space: nowrap;
-  }
-</style>
+    /* Estilos botones zoom personalizados */
+    #zoom-in,
+    #zoom-out {
+      width: 30px;
+      height: 30px;
+      font-size: 20px;
+      padding: 0;
+      text-align: center;
+      line-height: 30px;
+    }
+
+    /* Mapa adaptado a barra superior */
+    #map {
+      position: absolute;
+      top: 90px;
+      bottom: 0;
+      width: 100%;
+    }
+
+    /* Media query para móviles */
+    @media (max-width: 600px) {
+
+      /* Mover botones zoom nativos si se usan */
+      .leaflet-control-zoom {
+        top: 110px !important;
+        left: 8px !important;
+      }
+
+      /* Ajustar botones zoom personalizados en móvil */
+      #zoom-in,
+      #zoom-out {
+        width: 30px !important;
+        height: 30px !important;
+        font-size: 20px !important;
+        padding: 0 !important;
+        text-align: center !important;
+        line-height: 30px !important;
+      }
+
+      /* Selector centrado horizontal y tamaño fijo */
+      #gallery-select-container {
+        flex: 0 0 auto;
+        width: 180px;
+        margin: 0 auto;
+      }
+
+      .gallery-select {
+        width: 100%;
+      }
+
+      /* Botón idioma ligeramente más a la izquierda */
+      #language-toggle {
+        margin-left: 5px !important;
+      }
+    }
+
+    /* Ocultar label visualmente pero mantener accesibilidad */
+    .visually-hidden {
+      position: absolute !important;
+      height: 1px; width: 1px;
+      overflow: hidden;
+      clip: rect(1px, 1px, 1px, 1px);
+      white-space: nowrap;
+    }
+  </style>
 </head>
 <body>
-
-
+ <!-- Contenedor fijo arriba con actualización y selector -->
   <div id="top-ui">
     <div id="update-date">
       Última actualización: <span id="last-update"></span>
@@ -139,7 +137,7 @@
 
     <div id="selector-bar">
 
-
+      <!-- Contenedor zoom personalizado -->
       <div id="zoom-controls">
         <button id="zoom-in">+</button>
         <button id="zoom-out">-</button>
@@ -156,11 +154,12 @@
     </div>
   </div>
 
-
+  <!-- Mapa -->
   <div id="map"></div>
-<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<!-- Scripts -->
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
   <script>
-
+    // Crear mapa sin controles nativos de zoom (usamos personalizados)
     const map = L.map('map', { zoomControl: false }).setView([36.7213, -4.4214], 13);
 
     L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
@@ -168,7 +167,7 @@
       maxZoom: 19,
     }).addTo(map);
 
-
+    // Textos para idiomas
     const texts = {
       es: {
         selectLabel: "Selecciona una galería:",
@@ -184,13 +183,14 @@
       }
     };
 
-    let currentLang = 'es';
+    let currentLang = 'es';  // Idioma por defecto
+
     const toggleBtn = document.getElementById('language-toggle');
     const gallerySelectLabel = document.querySelector('label[for="gallery-select"]');
     const gallerySelect = document.getElementById('gallery-select');
     const lastUpdateDiv = document.getElementById('update-date');
 
-
+    // Actualizar textos estáticos según idioma
     function updateStaticTexts() {
       const t = texts[currentLang];
       gallerySelectLabel.textContent = t.selectLabel;
@@ -206,25 +206,23 @@
       lastUpdateDiv.innerHTML = `${t.lastUpdate} <span id="last-update">${fechaFormateada}</span>`;
     }
 
-
+    // Cambiar idioma al hacer clic
     toggleBtn.addEventListener('click', () => {
-      
+
       currentLang = currentLang === 'es' ? 'en' : 'es';
-      
+
       updateStaticTexts();
-      toggleBtn.textContent = currentLang === 'es' ? 'EN' : 'ES';
 
-
-     
+      // Actualizar popup ubicación usuario si existe
       if (userMarker) {
         userMarker.setPopupContent(currentLang === 'es' ? "Tu ubicación" : "Your location");
       }
 
-
+      // Actualizar popup abierto si hay alguno
       const openPopup = map._popup;
       if (openPopup && openPopup.isOpen()) {
         const marker = openPopup._source;
-       
+
         const idx = window.markers.indexOf(marker);
         if (idx !== -1) {
           openPopup.setContent(
@@ -234,17 +232,20 @@
         }
       }
 
-
+      // Cambiar texto botón idioma
+      toggleBtn.textContent = currentLang === 'es' ? 'EN' : 'ES';
     });
 
     updateStaticTexts();
-let userMarker = null;
+
+    // Variables globales para galerías y marcadores
+    let userMarker = null;
 
     fetch('galerias.json')
       .then(response => response.json())
       .then(galerias => {
         const markers = [];
-
+        const gallerySelect = document.getElementById('gallery-select');
 
         function getPopupContent(galeria) {
           const desc = currentLang === 'es' ? galeria.descripcion_es : galeria.descripcion_en;
@@ -285,7 +286,7 @@ let userMarker = null;
       })
       .catch(error => console.error('Error cargando galerías:', error));
 
-    // Geolocalización
+    // Mostrar ubicación del usuario
     if ("geolocation" in navigator) {
       navigator.geolocation.getCurrentPosition(position => {
         const userLat = position.coords.latitude;
@@ -304,12 +305,19 @@ let userMarker = null;
       }, error => {
         console.log("No se pudo obtener la ubicación: ", error.message);
       });
+    } else {
+      console.log("Geolocalización no está disponible en este navegador.");
     }
 
-    // Botones de zoom personalizados
-    document.getElementById('zoom-in').addEventListener('click', () => map.zoomIn());
-    document.getElementById('zoom-out').addEventListener('click', () => map.zoomOut());
-  </script>
+    // Zoom personalizado con botones + y -
+    document.getElementById('zoom-in').addEventListener('click', () => {
+      map.zoomIn();
+    });
 
+    document.getElementById('zoom-out').addEventListener('click', () => {
+      map.zoomOut();
+    });
+  </script>
+  
 </body>
 </html>
