@@ -5,8 +5,9 @@
   <title>Mapa de Galerías de Arte - Multilenguaje</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+
   <style>
-    /* Envolver los elementos en un contenedor fijo arriba */
+    /* Contenedor superior fijo */
     #top-ui {
       position: fixed;
       top: 0;
@@ -16,9 +17,9 @@
       z-index: 1000;
       box-shadow: 0 2px 6px rgba(0,0,0,0.1);
       font-size: 14px;
-      padding-bottom: 6px; /* para que la barra tenga algo de espacio */
+      padding-bottom: 6px;
     }
-    /* Mensaje de actualización */
+
     #update-date {
       text-align: center;
       font-size: 0.85em;
@@ -26,67 +27,77 @@
       padding: 6px 0 4px;
     }
 
-    /* Contenedor flex para zoom + selector + idioma */
+
     #selector-bar {
       display: flex;
       align-items: center;
       justify-content: center;
       padding: 4px 8px 6px;
-      max-width: 960px;  /* opcional, para no hacer la barra muy ancha */
-      margin: 0 auto;    /* centrar horizontalmente */
+      max-width: 960px;
+      margin: 0 auto;
     }
 
-    /* Botones laterales */
+
     #zoom-controls {
       display: flex;
-      flex-direction: column; /* apilar verticalmente */
+      flex-direction: column;
       align-items: center;
       gap: 4px;
-      /* No le pongas ancho fijo, solo lo que ocupe su contenido */
+
     }
 
-    /* Contenedor del selector con flex-grow para que ocupe el espacio central */
+
     #gallery-select-container {
-      /* No flex-grow para que no se estire */
-      flex: 0 0 auto;    /* que no crezca ni se encoja */
-      width: 200px;      
+      flex: 0 0 auto;
+      width: 200px;
       margin-left: auto;
       margin-right: auto;
-      box-sizing: border-box; /* para que el padding no aumente el ancho total, opcional */
+      box-sizing: border-box;
     }
 
-    .gallery-select {      /* ocupa todo el ancho de su contenedor */
-      width: 100%;     
+    .gallery-select {
+      width: 100%;
       padding: 4px 8px;
       font-size: 14px;
-      box-sizing: border-box; /* para que el padding no aumente el ancho total, opcional */
+      box-sizing: border-box;
     }
 
-    /* Botón idioma fijo al tamaño de contenido */
+
     #language-toggle {
       flex-shrink: 0;
-      display: block; /* asegurar que esté visible */
-      margin-left: 20px; /* margen a la izquierda para separarlo */
+      display: block;
+      margin-left: 20px;
     }
 
-    /* MEDIA QUERY para móviles */
+    /* Estilos de botones de zoom personalizados */
+    #zoom-in,
+    #zoom-out {
+      width: 30px;
+      height: 30px;
+      font-size: 20px;
+      padding: 0;
+      text-align: center;
+      line-height: 30px;
+    }
+
+    /* Media query para móviles */
     @media (max-width: 600px) {
       #gallery-select-container {
-        width: auto;       /* que ocupe solo el espacio necesario */
-        flex: 1 1 auto;    /* que pueda crecer y encogerse */
-        max-width: 180px;  /* limita ancho máximo para que no crezca mucho */
-        min-width: 120px;  /* no se encoge más de esto */
-        margin-left: 0;    /* quitar márgenes automáticos para que no quede centrado */
-        margin-right: 8px; /* pequeño espacio a la derecha para separar del botón */
+        width: auto;
+        flex: 1 1 auto;
+        max-width: 180px;
+        min-width: 120px;
+        margin-left: 0;
+        margin-right: 8px;
       }
 
       #language-toggle {
-        margin-left: 100px; /* mueve un poco a la derecha el botón de idioma en móvil */
+        margin-left: 100px;
       }
 
       .gallery-select {
         font-size: 13px;
-        max-width: 100%;  /* siempre dentro de su contenedor */
+        max-width: 100%;
       }
 
       #selector-bar {
@@ -94,7 +105,7 @@
       }
     }
 
-    /* Ocultar label visualmente pero mantener accesibilidad */
+
     .visually-hidden {
       position: absolute !important;
       height: 1px; width: 1px;
@@ -102,42 +113,21 @@
       clip: rect(1px, 1px, 1px, 1px);
       white-space: nowrap;
     }
-  </style>
 
-  <style> 
-    /* Ajustar mapa para no solapar con top-ui */
+
+    /* Mapa adaptado a barra superior */
     #map {
       position: absolute;
-      top: 90px;  /* un poco más alto porque ahora top-ui es más alto */
+      top: 90px;
       bottom: 0;
       width: 100%;
     }
-/* Forzar que ambos botones de zoom tengan el mismo tamaño */
-/* Forzar tamaño igual para ambos botones */
-.leaflet-control-zoom-in,
-.leaflet-control-zoom-out {
-  width: 30px !important;
-  height: 30px !important;
-  line-height: 30px !important;
-  font-size: 20px !important;
-  padding: 0 !important;
-  text-align: center !important;
-}
-
-/* Si quieres que el contenedor de zoom sea vertical y sin espacios extra */
-.leaflet-control-zoom {
-  display: flex !important;
-  flex-direction: column !important;
-  width: 30px !important;
-  height: 60px !important;
-  padding: 0 !important;
-}
 
   </style>
 </head>
 <body>
 
-  <!-- Contenedor fijo arriba con actualización y selector -->
+
   <div id="top-ui">
     <div id="update-date">
       Última actualización: <span id="last-update"></span>
@@ -145,7 +135,7 @@
 
     <div id="selector-bar">
 
-      <!-- Contenedor zoom personalizado -->
+
       <div id="zoom-controls">
         <button id="zoom-in">+</button>
         <button id="zoom-out">-</button>
@@ -162,13 +152,11 @@
     </div>
   </div>
 
-  <!-- Mapa -->
-  <div id="map"></div>
 
-  <!-- Scripts -->
-  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <div id="map"></div>
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
   <script>
-    // Crear mapa sin controles de zoom nativos (los gestionamos personalizados)
+
     const map = L.map('map', { zoomControl: false }).setView([36.7213, -4.4214], 13);
 
     L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
@@ -176,7 +164,7 @@
       maxZoom: 19,
     }).addTo(map);
 
-    // Textos para los idiomas
+
     const texts = {
       es: {
         selectLabel: "Selecciona una galería:",
@@ -192,14 +180,13 @@
       }
     };
 
-    let currentLang = 'es';  // Define idioma por defecto
-
+    let currentLang = 'es';
     const toggleBtn = document.getElementById('language-toggle');
     const gallerySelectLabel = document.querySelector('label[for="gallery-select"]');
     const gallerySelect = document.getElementById('gallery-select');
     const lastUpdateDiv = document.getElementById('update-date');
 
-    // Actualizar textos estáticos
+
     function updateStaticTexts() {
       const t = texts[currentLang];
       gallerySelectLabel.textContent = t.selectLabel;
@@ -215,22 +202,25 @@
       lastUpdateDiv.innerHTML = `${t.lastUpdate} <span id="last-update">${fechaFormateada}</span>`;
     }
 
-    // Cambiar idioma al hacer clic en el botón
+
     toggleBtn.addEventListener('click', () => {
+      
       currentLang = currentLang === 'es' ? 'en' : 'es';
-
+      
       updateStaticTexts();
+      toggleBtn.textContent = currentLang === 'es' ? 'EN' : 'ES';
 
-      // Actualizar texto ubicación usuario si existe
+
+     
       if (userMarker) {
         userMarker.setPopupContent(currentLang === 'es' ? "Tu ubicación" : "Your location");
       }
 
-      // Si hay popup abierto, actualizar su contenido para el idioma nuevo
+
       const openPopup = map._popup;
       if (openPopup && openPopup.isOpen()) {
         const marker = openPopup._source;
-        // Buscar índice del marker para acceder a galería
+       
         const idx = window.markers.indexOf(marker);
         if (idx !== -1) {
           openPopup.setContent(
@@ -240,20 +230,17 @@
         }
       }
 
-      // Cambiar texto botón
-      toggleBtn.textContent = currentLang === 'es' ? 'EN' : 'ES';
+
     });
 
     updateStaticTexts();
-
-    // Variables globales para galerías y marcadores
-    let userMarker = null;
+let userMarker = null;
 
     fetch('galerias.json')
       .then(response => response.json())
       .then(galerias => {
         const markers = [];
-        const gallerySelect = document.getElementById('gallery-select');
+
 
         function getPopupContent(galeria) {
           const desc = currentLang === 'es' ? galeria.descripcion_es : galeria.descripcion_en;
@@ -294,7 +281,7 @@
       })
       .catch(error => console.error('Error cargando galerías:', error));
 
-    // Mostrar ubicación del usuario
+    // Geolocalización
     if ("geolocation" in navigator) {
       navigator.geolocation.getCurrentPosition(position => {
         const userLat = position.coords.latitude;
@@ -313,18 +300,11 @@
       }, error => {
         console.log("No se pudo obtener la ubicación: ", error.message);
       });
-    } else {
-      console.log("Geolocalización no está disponible en este navegador.");
     }
 
-    // Zoom personalizado con botones + y -
-    document.getElementById('zoom-in').addEventListener('click', () => {
-      map.zoomIn();
-    });
-
-    document.getElementById('zoom-out').addEventListener('click', () => {
-      map.zoomOut();
-    });
+    // Botones de zoom personalizados
+    document.getElementById('zoom-in').addEventListener('click', () => map.zoomIn());
+    document.getElementById('zoom-out').addEventListener('click', () => map.zoomOut());
   </script>
 
 </body>
