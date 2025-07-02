@@ -113,20 +113,22 @@
       bottom: 0;
       width: 100%;
     }
-.leaflet-control-zoom-in,
+/* Forzar que ambos botones de zoom tengan el mismo tamaño */
+.leaflet-control-zoom-in, 
 .leaflet-control-zoom-out {
-  width: 36px;          /* mismo ancho */
-  height: 36px;         /* misma altura */
-  line-height: 36px;    /* para centrar verticalmente el símbolo */
-  font-size: 24px;      /* tamaño de signo + y - */
-  text-align: center;   /* centrar horizontalmente */
-  padding: 0;           /* eliminar padding extra */
+  width: 30px;     /* ajusta a lo que quieras */
+  height: 30px;    /* igual que width para que sea cuadrado */
+  line-height: 30px; /* para centrar el símbolo verticalmente */
+  font-size: 20px;  /* tamaño del símbolo + o - */
+  text-align: center;
+  padding: 0;
   box-sizing: border-box;
-  font-weight: normal;  /* mismo grosor */
-  user-select: none;    /* evitar selección de texto al clicar */
 }
-.leaflet-control-zoom-out {
-  font-weight: bold;
+
+/* Opcional: igualar el tamaño de fuente y quitar diferencias internas */
+.leaflet-control-zoom-in::after,
+.leaflet-control-zoom-out::after {
+  font-size: 20px;
 }
   </style>
 </head>
