@@ -5,15 +5,15 @@
   <title>Mapa de Galerías de Arte - Multilenguaje</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+
   <style>
 
 
-/* Envolver los elementos en un contenedor fijo arriba */
+/* Contenedor fijo arriba */
 #top-ui {
   position: fixed;
   top: 0;
   width: 100%;
-
   background: #f7f7f7;
   z-index: 1000;
   box-shadow: 0 2px 6px rgba(0,0,0,0.1);
@@ -29,70 +29,68 @@
   padding: 6px 0 4px;
 }
 
-/* Contenedor flex para zoom + selector + idioma */
+/* Contenedor principal para los controles */
 #selector-bar {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 4px 8px 6px;
-  max-width: 960px;  /* opcional, para no hacer la barra muy ancha */
-  margin: 0 auto;    /* centrar horizontalmente */
+  position: relative; /* necesario para posición absoluta hijos */
+  height: 40px;       /* ajusta según tamaño real de controles */
+  max-width: 960px;
+  margin: 0 auto;
+  /* Quitar flex para manejar posicionamiento absoluto */
 }
 
-/* Botones laterales */
+/* Botones de zoom, posición absoluta a la izquierda */
 #zoom-controls {
+  position: absolute;
+  top: 50%;
+  left: 8px;
+  transform: translateY(-50%);
   display: flex;
-  align-items: center;
-  /* No le pongas ancho fijo, solo lo que ocupe su contenido */
+  gap: 4px; /* espacio entre botones */
 }
 
-/* Contenedor del selector con flex-grow para que ocupe el espacio central */
+/* Selector centrado */
 #gallery-select-container {
-  /* No flex-grow para que no se estire */
-  flex: 0 0 auto;    /* que no crezca ni se encoja */
-  width: 200px;      
-  margin-left: auto;
-  margin-right: auto;
-  box-sizing: border-box; /* para que el padding no aumente el ancho total, opcional */
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 200px;
+  transform: translate(-50%, -50%);
+  box-sizing: border-box;
 }
 
-.gallery-select {      /* ocupa todo el ancho de su contenedor */
-  width: 100%;     
+/* Selector que ocupa todo el contenedor */
+.gallery-select {
+  width: 100%;
   padding: 4px 8px;
   font-size: 14px;
-  box-sizing: border-box; /* para que el padding no aumente el ancho total, opcional */
+  box-sizing: border-box;
 }
 
-/* Botón idioma fijo al tamaño de contenido */
+/* Botón idioma a la derecha */
 #language-toggle {
+  position: absolute;
+  top: 50%;
+  right: 8px;
+  transform: translateY(-50%);
   flex-shrink: 0;
-  display: block; /* asegurar que esté visible */
-  border: 2px solid red;
-  margin-left: 20px; /* prueba con un margen visible */
+  display: block;
+  border: 2px solid red; /* para que veas el botón claramente */
+  padding: 4px 12px;
+  cursor: pointer;
 }
 
 /* MEDIA QUERY para móviles */
 @media (max-width: 600px) {
   #gallery-select-container {
-    width: auto;       /* que ocupe solo el espacio necesario */
-    flex: 1 1 auto;    /* que pueda crecer y encogerse */
-    max-width: 180px;  /* limita ancho máximo para que no crezca mucho */
-    min-width: 120px;  /* no se encoge más de esto */
-    margin-left: 0;    /* quitar márgenes automáticos para que no quede centrado */
-    margin-right: 8px; /* pequeño espacio a la derecha para separar del botón */
+    width: 140px;  /* ancho menor en móvil */
   }
 
   #language-toggle {
-    margin-left: 100px; /* mueve un poco a la derecha el botón de idioma en móvil */
+    right: 4px;   /* un poco menos margen derecha */
   }
 
-  .gallery-select {
-    font-size: 13px;
-    max-width: 100%;  /* siempre dentro de su contenedor */
-  }
-
-  #selector-bar {
-    padding: 4px 8px 6px;
+  #zoom-controls {
+    left: 4px;    /* margen izquierdo reducido */
   }
 }
 
@@ -104,9 +102,8 @@
   clip: rect(1px, 1px, 1px, 1px);
   white-space: nowrap;
 }
-</style>
 
-<style> 
+
 /* Ajustar mapa para no solapar con top-ui */
 #map {
   position: absolute;
@@ -114,7 +111,8 @@
   bottom: 0;
   width: 100%;
 }
-/* Mover el control de zoom de Leaflet */
+
+/* Mover el control de zoom de Leaflet (mapa) */
 .leaflet-control-zoom {
   top: 80px !important;
   left: 8px !important;
@@ -130,6 +128,12 @@
   </div>
 
   <div id="selector-bar">
+
+    <div id="zoom-controls">
+      <!-- Aquí van los botones de zoom (+ y -) -->
+      <button id="zoom-in">+</button>
+      <button id="zoom-out">-</button>
+    </div>
 
     <div id="gallery-select-container">
       <label for="gallery-select" class="visually-hidden">Selecciona una galería:</label>
