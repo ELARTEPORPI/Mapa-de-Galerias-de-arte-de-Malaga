@@ -40,7 +40,9 @@
     /* Botones laterales */
     #zoom-controls {
       display: flex;
+      flex-direction: column; /* apilar verticalmente */
       align-items: center;
+      gap: 4px;
       /* No le pongas ancho fijo, solo lo que ocupe su contenido */
     }
 
@@ -65,7 +67,6 @@
     #language-toggle {
       flex-shrink: 0;
       display: block; /* asegurar que esté visible */
-      border: 2px solid red;  /* para que lo veas bien */
       margin-left: 20px; /* margen a la izquierda para separarlo */
     }
 
