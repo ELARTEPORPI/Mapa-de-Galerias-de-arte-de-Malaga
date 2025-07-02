@@ -114,12 +114,21 @@
       width: 100%;
     }
 /* Forzar que ambos botones de zoom tengan el mismo tamaño */
-.leaflet-control-zoom-in, 
+.leaflet-control-zoom-in {
+  width: 32px;    /* ancho + */
+  height: 32px;   /* alto + */
+  font-size: 22px; 
+  line-height: 32px;
+  text-align: center;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 .leaflet-control-zoom-out {
-  width: 30px;     /* ajusta a lo que quieras */
-  height: 30px;    /* igual que width para que sea cuadrado */
-  line-height: 30px; /* para centrar el símbolo verticalmente */
-  font-size: 20px;  /* tamaño del símbolo + o - */
+  width: 28px;    /* ancho - */
+  height: 28px;   /* alto - */
+  font-size: 20px; 
+  line-height: 28px;
   text-align: center;
   padding: 0;
   box-sizing: border-box;
