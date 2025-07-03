@@ -85,17 +85,17 @@
   }
 
   /* Mapa adaptado a barra superior */
-  #map {
-    position: absolute;
-    top: 90px;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    margin: 0;
-    padding: 0;
-    width: 100%;
-    box-sizing: border-box;
-  }
+#map {
+  position: absolute;
+  top: 90px;
+  bottom: 0;
+  left: 0;      /* Asegura que el mapa toque la izquierda */
+  right: 0;     /* Asegura que el mapa toque la derecha */
+  margin: 0;    /* Quita cualquier margen */
+  padding: 0;   /* Quita cualquier padding */
+  width: 100%;
+  box-sizing: border-box;
+}
 
   /* Media query para móviles */
   @media (max-width: 600px) {
