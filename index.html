@@ -50,21 +50,18 @@
     box-sizing: border-box;
   }
 
-  #zoom-controls {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 4px;
-    margin-left: 500px; 
-  }
+#zoom-controls {
+  flex: 0 0 60px;  /* ancho reservado fijo */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 
-  #gallery-select-container {
-    flex: 0 0 auto;
-    width: 200px;
-    margin-left: 2000px; 
-    margin-right: 0;
-    box-sizing: border-box;
-  }
+#gallery-select-container {
+  flex: 1;  /* ocupa el espacio central */
+  display: flex;
+  justify-content: center;
+}
 
   .gallery-select {
     width: 100%;
@@ -73,11 +70,10 @@
     box-sizing: border-box;
   }
 
-  #language-toggle {
-    flex-shrink: 0;
-    display: block;
-    margin-left: 500px;
-  }
+#language-toggle {
+  flex: 0 0 60px; /* ancho reservado fijo */
+  transform: translateX(-10px);  /* ajuste fino */
+}
 
   /* Estilos botones zoom personalizados */
   #zoom-in,
