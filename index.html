@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
 <style>
-  /* Reset básico para evitar márgenes/paddings inesperados */
+  /* Reset básico */
   html, body {
     margin: 0;
     padding: 0;
@@ -22,8 +22,6 @@
     left: 0;
     right: 0;
     width: 100%;
-    margin: 0;
-    padding: 0;
     background: #f7f7f7;
     z-index: 1000;
     box-shadow: 0 2px 6px rgba(0,0,0,0.1);
@@ -39,26 +37,29 @@
     padding: 6px 0 4px;
   }
 
-#selector-bar {
-  position: relative;
-  height: 40px; /* o lo que haga falta para que no colapse */
-}
+  /* Layout horizontal con flexbox para PC */
+  #selector-bar {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end; /* Empuja todo a la derecha */
+    padding: 4px 16px 6px; /* algo de espacio horizontal */
+    max-width: 1200px;
+    margin: 0 auto;
+    gap: 24px; /* espacio entre controles */
+  }
 
-#zoom-controls {
-  display: flex;
-  flex-direction: column; /* ¡muy importante para que los botones estén verticales! */
-  align-items: center;
-  gap: 4px;
-  position: relative;
-  left: -350px; /* Mueve el bloque de zoom hacia la derecha */
-}
+  /* Zoom vertical */
+  #zoom-controls {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+  }
 
-#gallery-select-container {
-  position: absolute;
-  left: 800px;
-  top: 50%;
-  transform: translateY(-50%);
-}
+  /* Selector con ancho fijo */
+  #gallery-select-container {
+    flex: 0 0 200px;
+  }
 
   .gallery-select {
     width: 100%;
@@ -67,14 +68,12 @@
     box-sizing: border-box;
   }
 
-#language-toggle {
-  position: absolute;
-  left: 1350px;
-  top: 50%;
-  transform: translateY(-50%);
-}
+  /* Botón idioma sin margen fijo, sin posicion absolute */
+  #language-toggle {
+    flex-shrink: 0;
+  }
 
-  /* Estilos botones zoom personalizados */
+  /* Botones zoom personalizados */
   #zoom-in,
   #zoom-out {
     width: 20px;
@@ -83,10 +82,9 @@
     line-height: 20px;
     padding: 0;
     text-align: center;
-    
   }
 
-  /* Mapa adaptado a barra superior y sin márgenes */
+  /* Mapa adaptado a barra superior */
   #map {
     position: absolute;
     top: 90px;
@@ -119,21 +117,41 @@
       line-height: 30px !important;
     }
 
-    /* Selector centrado horizontal y tamaño fijo */
+    /* Selector centrado y ancho más pequeño */
+    #selector-bar {
+      justify-content: center;
+      gap: 12px;
+      padding: 4px 8px 6px;
+    }
+
     #gallery-select-container {
-      flex: 0 0 auto;
-      width: 180px;
+      flex: 0 0 180px;
       margin: 0 auto;
+      position: static;
+      left: auto;
+      top: auto;
+      transform: none;
     }
 
     .gallery-select {
       width: 100%;
     }
 
-    /* Botón idioma ligeramente más a la izquierda solo en móvil */
+    /* Botón idioma más a la izquierda en móvil */
     #language-toggle {
       margin-left: 40px !important;
       transform: translateX(-35px) !important;
+      position: static !important;
+      left: auto !important;
+      top: auto !important;
+    }
+
+    /* Zoom controles posición estática para móvil */
+    #zoom-controls {
+      position: static !important;
+      left: auto !important;
+      flex-direction: row !important;
+      gap: 8px !important;
     }
   }
 
