@@ -99,7 +99,7 @@
    /* Media query para móviles */
 @media (max-width: 600px) {
   #selector-bar {
-    padding: 2px 8px -3px; /* menos padding abajo solo en móvil */
+    padding: 2px 8px 0px; /* menos padding abajo solo en móvil */
   }
 
   /* Mover botones zoom nativos si se usan */
@@ -232,8 +232,8 @@
     <div id="update-date">
       Última actualización: <span id="last-update"></span>
     </div>
-    <div id="author-credit">
-      Creado por <a href="https://www.instagram.com/alexpimonti" target="_blank" rel="noopener noreferrer">@alexpimonti</a> (Instagram)
+    <div id="creator-note">
+    Creado por <a href="https://www.instagram.com/alexpimonti" target="_blank" rel="noopener noreferrer">@alexpimonti</a> (Instagram)
     </div>
     <div id="selector-bar">
 
@@ -302,20 +302,26 @@
     const lastUpdateDiv = document.getElementById('update-date');
 
     // Actualizar textos estáticos según idioma
-    function updateStaticTexts() {
-      const t = texts[currentLang];
-      gallerySelectLabel.textContent = t.selectLabel;
+function updateStaticTexts() {
+  const t = texts[currentLang];
+  gallerySelectLabel.textContent = t.selectLabel;
 
-      if (gallerySelect.options.length > 0) {
-        gallerySelect.options[0].textContent = t.selectOption;
-      }
+  if (gallerySelect.options.length > 0) {
+    gallerySelect.options[0].textContent = t.selectOption;
+  }
 
-      const fecha = new Date();
-      const opcionesFecha = { year: 'numeric', month: 'long', day: 'numeric' };
-      const fechaFormateada = fecha.toLocaleDateString(t.locale, opcionesFecha);
+  const fecha = new Date();
+  const opcionesFecha = { year: 'numeric', month: 'long', day: 'numeric' };
+  const fechaFormateada = fecha.toLocaleDateString(t.locale, opcionesFecha);
 
-      lastUpdateDiv.innerHTML = `${t.lastUpdate} <span id="last-update">${fechaFormateada}</span>`;
-    }
+  lastUpdateDiv.innerHTML = `${t.lastUpdate} <span id="last-update">${fechaFormateada}</span>`;
+
+  // Añadir mensaje del autor con cambio de idioma
+  document.getElementById('creator-note').innerHTML =
+    currentLang === 'es'
+      ? 'Creado por <a href="https://www.instagram.com/alexpimonti" target="_blank">@alexpimonti</a> (Instagram)'
+      : 'Created by <a href="https://www.instagram.com/alexpimonti" target="_blank">@alexpimonti</a> (Instagram)';
+}
   // Cambiar idioma al hacer clic
     toggleBtn.addEventListener('click', () => {
 
