@@ -95,50 +95,51 @@
       padding: 0;
       box-sizing: border-box;
     }
-    /* Media query para móviles */
-    @media (max-width: 600px) {
-      #selector-bar {
-        padding: 2px 8px 0px; /* menos padding abajo solo en móvil */
-      }
 
-      /* Mover botones zoom nativos si se usan */
-      .leaflet-control-zoom {
-        top: 110px !important;
-        left: 8px !important;
-      }
+   /* Media query para móviles */
+@media (max-width: 600px) {
+  #selector-bar {
+    padding: 2px 8px -1px; /* menos padding abajo solo en móvil */
+  }
 
-      /* Ajustar botones zoom personalizados en móvil */
-      #zoom-in,
-      #zoom-out {
-        width: 30px !important;
-        height: 30px !important;
-        font-size: 20px !important;
-        padding: 0 !important;
-        text-align: center !important;
-        line-height: 30px !important;
-      }
+  /* Mover botones zoom nativos si se usan */
+  .leaflet-control-zoom {
+    top: 110px !important;
+    left: 8px !important;
+  }
 
-      /* Selector centrado horizontal y tamaño fijo */
-      #gallery-select-container {
-        flex: 0 0 auto;
-        width: 180px;
-        margin: 0 auto;
-        position: static !important;
-        left: auto !important;
-        top: auto !important;
-        transform: none !important;
-      }
+  /* Ajustar botones zoom personalizados en móvil */
+  #zoom-in,
+  #zoom-out {
+    width: 30px !important;
+    height: 30px !important;
+    font-size: 20px !important;
+    padding: 0 !important;
+    text-align: center !important;
+    line-height: 30px !important;
+  }
 
-      .gallery-select {
-        width: 100%;
-      }
+  /* Selector centrado horizontal y tamaño fijo */
+  #gallery-select-container {
+    flex: 0 0 auto;
+    width: 180px;
+    margin: 0 auto;
+    position: static !important;
+    left: auto !important;
+    top: auto !important;
+    transform: none !important;
+  }
 
-      /* Botón idioma ligeramente más a la izquierda */
-      #language-toggle {
-        margin-left: 40px !important;
-        transform: translateX(-35px) !important;
-      }
-    }
+  .gallery-select {
+    width: 100%;
+  }
+
+  /* Botón idioma ligeramente más a la izquierda */
+  #language-toggle {
+    margin-left: 40px !important;
+    transform: translateX(-35px) !important;
+  }
+}
 
     /* Ocultar label visualmente pero mantener accesibilidad */
     .visually-hidden {
