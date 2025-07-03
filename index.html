@@ -5,165 +5,129 @@
   <title>Mapa de Galerías de Arte - Multilenguaje</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
-<style>
-  /* Reset básico */
-  html, body {
-    margin: 0;
-    padding: 0;
-    width: 100%;
-    height: 100%;
-    overflow-x: hidden;
-  }
-
-  /* Contenedor superior fijo */
-  #top-ui {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    width: 100%;
-    background: #f7f7f7;
-    z-index: 1000;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-    font-size: 14px;
-    padding-bottom: 6px;
-    box-sizing: border-box;
-  }
-
-  #update-date {
-    text-align: center;
-    font-size: 0.85em;
-    color: #555;
-    padding: 6px 0 4px;
-  }
-
-  /* Layout horizontal con flexbox para PC */
-  #selector-bar {
-    display: flex;
-    align-items: center;
-    justify-content: flex-end; /* Empuja todo a la derecha */
-    padding: 4px 16px 6px; /* algo de espacio horizontal */
-    max-width: 1200px;
-    margin: 0 auto;
-    gap: 24px; /* espacio entre controles */
-  }
-
-  /* Zoom vertical */
-  #zoom-controls {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 4px;
-  }
-
-  /* Selector con ancho fijo */
-  #gallery-select-container {
-    flex: 0 0 200px;
-  }
-
-  .gallery-select {
-    width: 100%;
-    padding: 4px 8px;
-    font-size: 14px;
-    box-sizing: border-box;
-  }
-
-  /* Botón idioma sin margen fijo, sin posicion absolute */
-  #language-toggle {
-    flex-shrink: 0;
-  }
-
-  /* Botones zoom personalizados */
-  #zoom-in,
-  #zoom-out {
-    width: 20px;
-    height: 20px;
-    font-size: 10px;
-    line-height: 20px;
-    padding: 0;
-    text-align: center;
-  }
-
-  /* Mapa adaptado a barra superior */
-#map {
-  position: absolute;
-  top: 90px;
-  bottom: 0;
-  left: 0;      /* Asegura que el mapa toque la izquierda */
-  right: 0;     /* Asegura que el mapa toque la derecha */
-  margin: 0;    /* Quita cualquier margen */
-  padding: 0;   /* Quita cualquier padding */
-  width: 100%;
-  box-sizing: border-box;
-}
-
-  /* Media query para móviles */
-  @media (max-width: 600px) {
-
-    /* Mover botones zoom nativos si se usan */
-    .leaflet-control-zoom {
-      top: 110px !important;
-      left: 8px !important;
+  <style>
+    /* Contenedor superior fijo */
+    #top-ui {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background: #f7f7f7;
+      z-index: 1000;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      font-size: 14px;
+      padding-bottom: 6px;
     }
 
-    /* Ajustar botones zoom personalizados en móvil */
-  #zoom-in,
-  #zoom-out {
-    width: 25px;
-    height: 25px;
-    font-size: 10px;
-    line-height: 25px;
-    padding: 0;
-    text-align: center;
-  }
+    #update-date {
+      text-align: center;
+      font-size: 0.85em;
+      color: #555;
+      padding: 6px 0 4px;
+    }
 
-    /* Selector centrado y ancho más pequeño */
     #selector-bar {
+      display: flex;
+      align-items: center;
       justify-content: center;
-      gap: 12px;
       padding: 4px 8px 6px;
+      max-width: 960px;
+      margin: 0 auto;
+    }
+
+    #zoom-controls {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
     }
 
     #gallery-select-container {
-      flex: 0 0 200px;
-      margin: 0 auto;
-      position: static;
-      left: auto;
-      top: auto;
-      transform: none;
+      flex: 0 0 auto;
+      width: 200px;
+      margin-left: auto;
+      margin-right: auto;
+      box-sizing: border-box;
     }
 
     .gallery-select {
       width: 100%;
+      padding: 4px 8px;
+      font-size: 14px;
+      box-sizing: border-box;
     }
 
-    /* Botón idioma más a la izquierda en móvil */
     #language-toggle {
-      margin-left: 45px !important;
-      transform: translateX(-35px) !important;
-      position: static !important;
-      left: auto !important;
-      top: auto !important;
+      flex-shrink: 0;
+      display: block;
+      margin-left: 20px;
     }
 
-    /* Zoom controles posición estática para móvil */
-    #zoom-controls {
-      position: static !important;
-      left: auto !important;
-      flex-direction: column;
-      gap: 4px !important;
+    /* Estilos botones zoom personalizados */
+    #zoom-in,
+    #zoom-out {
+      width: 30px;
+      height: 30px;
+      font-size: 20px;
+      padding: 0;
+      text-align: center;
+      line-height: 30px;
     }
-  }
 
-  /* Ocultar label visualmente pero mantener accesibilidad */
-  .visually-hidden {
-    position: absolute !important;
-    height: 1px; width: 1px;
-    overflow: hidden;
-    clip: rect(1px, 1px, 1px, 1px);
-    white-space: nowrap;
+    /* Mapa adaptado a barra superior */
+    #map {
+      position: absolute;
+      top: 90px;
+      bottom: 0;
+      width: 100%;
+    }
+
+    /* Media query para móviles */
+    @media (max-width: 600px) {
+
+      /* Mover botones zoom nativos si se usan */
+      .leaflet-control-zoom {
+        top: 110px !important;
+        left: 8px !important;
+      }
+
+      /* Ajustar botones zoom personalizados en móvil */
+      #zoom-in,
+      #zoom-out {
+        width: 30px !important;
+        height: 30px !important;
+        font-size: 20px !important;
+        padding: 0 !important;
+        text-align: center !important;
+        line-height: 30px !important;
+      }
+
+      /* Selector centrado horizontal y tamaño fijo */
+      #gallery-select-container {
+        flex: 0 0 auto;
+        width: 180px;
+        margin: 0 auto;
+      }
+
+      .gallery-select {
+        width: 100%;
+      }
+
+      /* Botón idioma ligeramente más a la izquierda */
+  #language-toggle {
+    margin-left: 40px !important;
+    transform: translateX(-35px) !important;
   }
-</style>
+}
+
+    /* Ocultar label visualmente pero mantener accesibilidad */
+    .visually-hidden {
+      position: absolute !important;
+      height: 1px; width: 1px;
+      overflow: hidden;
+      clip: rect(1px, 1px, 1px, 1px);
+      white-space: nowrap;
+    }
+  </style>
 </head>
 <body>
  <!-- Contenedor fijo arriba con actualización y selector -->
