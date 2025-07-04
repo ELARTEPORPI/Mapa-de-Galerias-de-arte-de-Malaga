@@ -258,16 +258,46 @@
   <div id="map"></div>
 
   <!-- Donaciones -->
-  <div id="donation-panel" class="closed">
-    <button id="donation-toggle" aria-expanded="false" aria-controls="donation-content">
-      Apoya este mapa con una donación
-    </button>
-    <div id="donation-content" role="region" aria-live="polite" hidden>
-      <p>Tu aportación ayuda a mantener actualizado este mapa e invertir en tarjetas con QR para que más personas conozcan el mapa.</p>
-      <button id="donate-button">Donar con Stripe</button>
-    </div>
+<div id="donation-panel" class="closed">
+  <button id="donation-toggle" aria-expanded="false" aria-controls="donation-content">
+    <!-- Texto del botón -->
+  </button>
+  <div id="donation-content" role="region" aria-live="polite" hidden>
+    <p id="donation-text"></p>
+    <button id="donate-button"></button>
   </div>
+</div>
   <!-- Scripts -->
+   
+  <script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const texts = {
+      es: {
+        toggleButton: "Apoya este mapa con una donación",
+        donationText: "Este mapa es un proyecto personal e independiente. No está afiliado ni representa oficialmente a ninguna galería. Tu aportación ayuda a mantenerlo actualizado e invertir en tarjetas con QR para que más personas lo conozcan.",
+        donateButton: "Donar con Stripe"
+      },
+      en: {
+        toggleButton: "Support this map with a donation",
+        donationText: "This map is a personal and independent project. It is not affiliated with or officially representing any gallery. Your contribution helps keep it updated and invest in QR cards so more people discover it.",
+        donateButton: "Donate with Stripe"
+      }
+    };
+
+    // Define aquí el idioma actual (ejemplo: 'es' o 'en')
+    let currentLang = 'es';
+
+    function updateDonationTexts() {
+      document.getElementById('donation-toggle').textContent = texts[currentLang].toggleButton;
+      document.getElementById('donation-text').textContent = texts[currentLang].donationText;
+      document.getElementById('donate-button').textContent = texts[currentLang].donateButton;
+    }
+
+    updateDonationTexts();
+
+    // Si tienes función para cambiar idioma, llama updateDonationTexts() después de actualizar currentLang
+  });
+  </script>
   <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
   <script>
     // Crear mapa sin controles nativos de zoom (usamos personalizados)
@@ -459,5 +489,6 @@ function updateStaticTexts() {
       window.open(stripeLink, '_blank');
     });
   </script>
+  
 </body>
 </html>
