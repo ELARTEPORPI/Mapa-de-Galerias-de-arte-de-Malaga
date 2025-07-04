@@ -263,12 +263,13 @@
     <button id="donation-toggle" aria-expanded="false" aria-controls="donation-content">
       Apoya este mapa con una donación
     </button>
-<div id="donation-content" role="region" aria-live="polite" hidden>
-  <p id="donation-note" style="font-size: 0.85em; margin-top: 8px; color: #444;">
-    Este mapa es un proyecto personal e independiente. No está afiliado ni representa oficialmente a ninguna galería. Tu aportación ayuda a mantenerlo actualizado e invertir en tarjetas con QR para que más personas lo conozcan.
-  </p>
-  <button id="donate-button">Donar con Stripe</button>
-</div>
+    <div id="donation-content" role="region" aria-live="polite" hidden>
+      <p id="donation-note" style="font-size: 0.85em; margin-top: 8px; color: #444;">
+        Este mapa es un proyecto personal e independiente. No está afiliado ni representa oficialmente a ninguna galería. Tu aportación ayuda a mantenerlo actualizado e invertir en tarjetas con QR para que más personas lo conozcan.
+      </p>
+      <button id="donate-button">Donar con Stripe</button>
+    </div>
+  </div>
   <!-- Scripts -->
   <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
   <script>
@@ -281,26 +282,26 @@
     }).addTo(map);
 
     // Textos para idiomas
-const texts = {
-  es: {
-    selectLabel: "Selecciona una galería:",
-    selectOption: "-- Elige una galería --",
-    lastUpdate: "Última actualización:",
-    locale: "es-ES",
-    donationToggle: "Apoya este mapa con una donación",
-    donationMsg: "Este mapa es un proyecto personal e independiente. No está afiliado ni representa oficialmente a ninguna galería. Tu aportación ayuda a mantenerlo actualizado e invertir en tarjetas con QR para que más personas lo conozcan.",
-    donateButton: "Donar con Stripe"
-  },
-  en: {
-    selectLabel: "Select a gallery:",
-    selectOption: "-- Choose a gallery --",
-    lastUpdate: "Last update:",
-    locale: "en-US",
-    donationToggle: "Support this map with a donation",
-    donationMsg: "This map is a personal and independent project. It is not affiliated with nor officially represents any gallery. Your contribution helps keep it updated and invest in QR cards so more people know about it.",
-    donateButton: "Donate with Stripe"
-  }
-};
+    const texts = {
+      es: {
+        selectLabel: "Selecciona una galería:",
+        selectOption: "-- Elige una galería --",
+        lastUpdate: "Última actualización:",
+        locale: "es-ES",
+        donationToggle: "Apoya este mapa con una donación",
+        donationNote: "Este mapa es un proyecto personal e independiente. No está afiliado ni representa oficialmente a ninguna galería. Tu aportación ayuda a mantenerlo actualizado e invertir en tarjetas con QR para que más personas lo conozcan.",
+        donateButton: "Donar con Stripe"
+      },
+      en: {
+        selectLabel: "Select a gallery:",
+        selectOption: "-- Choose a gallery --",
+        lastUpdate: "Last update:",
+        locale: "en-US",
+        donationToggle: "Support this map with a donation",
+        donationNote: "This map is a personal and independent project. It is not affiliated with nor officially represents any gallery. Your contribution helps keep it updated and invest in QR cards so more people know about it.",
+        donateButton: "Donate with Stripe"
+      }
+    };
 
     let currentLang = 'es';  // Idioma por defecto
 
@@ -309,7 +310,6 @@ const texts = {
     const gallerySelect = document.getElementById('gallery-select');
     const lastUpdateDiv = document.getElementById('update-date');
     const donationToggleBtn = document.getElementById('donation-toggle');
-    const donationMsgP = document.getElementById('donation-msg');
     const donationNoteP = document.getElementById('donation-note');
     const donateBtn = document.getElementById('donate-button');
 
@@ -329,7 +329,6 @@ const texts = {
       lastUpdateDiv.innerHTML = `${t.lastUpdate} <span id="last-update">${fechaFormateada}</span>`;
 
       donationToggleBtn.textContent = t.donationToggle;
-      donationMsgP.textContent = t.donationMsg;
       donationNoteP.textContent = t.donationNote;
       donateBtn.textContent = t.donateButton;
 
