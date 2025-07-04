@@ -50,7 +50,8 @@
       align-items: center;
       gap: 4px;
     }
-   #gallery-select-container {
+
+    #gallery-select-container {
       flex: 0 0 auto;
       width: 200px;
       margin-left: auto;
@@ -95,52 +96,50 @@
       padding: 0;
       box-sizing: border-box;
     }
+    /* Media query para móviles */
+    @media (max-width: 600px) {
+      #selector-bar {
+        padding: 2px 8px 0px; /* menos padding abajo solo en móvil */
+      }
 
-   /* Media query para móviles */
-@media (max-width: 600px) {
-  #selector-bar {
-    padding: 2px 8px 0px; /* menos padding abajo solo en móvil */
-  }
+      /* Mover botones zoom nativos si se usan */
+      .leaflet-control-zoom {
+        top: 110px !important;
+        left: 8px !important;
+      }
 
-  /* Mover botones zoom nativos si se usan */
-  .leaflet-control-zoom {
-    top: 110px !important;
-    left: 8px !important;
-  }
+      /* Ajustar botones zoom personalizados en móvil */
+      #zoom-in,
+      #zoom-out {
+        width: 30px !important;
+        height: 30px !important;
+        font-size: 20px !important;
+        padding: 0 !important;
+        text-align: center !important;
+        line-height: 30px !important;
+      }
 
-  /* Ajustar botones zoom personalizados en móvil */
-  #zoom-in,
-  #zoom-out {
-    width: 30px !important;
-    height: 30px !important;
-    font-size: 20px !important;
-    padding: 0 !important;
-    text-align: center !important;
-    line-height: 30px !important;
-  }
+      /* Selector centrado horizontal y tamaño fijo */
+      #gallery-select-container {
+        flex: 0 0 auto;
+        width: 180px;
+        margin: 0 auto;
+        position: static !important;
+        left: auto !important;
+        top: auto !important;
+        transform: none !important;
+      }
 
-  /* Selector centrado horizontal y tamaño fijo */
-  #gallery-select-container {
-    flex: 0 0 auto;
-    width: 180px;
-    margin: 0 auto;
-    position: static !important;
-    left: auto !important;
-    top: auto !important;
-    transform: none !important;
-  }
+      .gallery-select {
+        width: 100%;
+      }
 
-  .gallery-select {
-    width: 100%;
-  }
-
-  /* Botón idioma ligeramente más a la izquierda */
-  #language-toggle {
-    margin-left: 40px !important;
-    transform: translateX(-35px) !important;
-  }
-}
-
+      /* Botón idioma ligeramente más a la izquierda */
+      #language-toggle {
+        margin-left: 40px !important;
+        transform: translateX(-35px) !important;
+      }
+    }
     /* Ocultar label visualmente pero mantener accesibilidad */
     .visually-hidden {
       position: absolute !important;
@@ -206,24 +205,24 @@
 
     #donate-button:hover {
       background: #218838;
-
     }
+
     #author-credit {
-  text-align: center;
-  font-size: 0.9em;
-  color: #666;
-  margin: 4px 0 8px;
-  font-family: Arial, sans-serif;
-}
+      text-align: center;
+      font-size: 0.9em;
+      color: #666;
+      margin: 4px 0 8px;
+      font-family: Arial, sans-serif;
+    }
 
-#author-credit a {
-  color: #0073e6;
-  text-decoration: none;
-}
+    #author-credit a {
+      color: #0073e6;
+      text-decoration: none;
+    }
 
-#author-credit a:hover {
-  text-decoration: underline;
-}
+    #author-credit a:hover {
+      text-decoration: underline;
+    }
   </style>
 </head>
 <body>
@@ -302,29 +301,28 @@
     const lastUpdateDiv = document.getElementById('update-date');
 
     // Actualizar textos estáticos según idioma
-function updateStaticTexts() {
-  const t = texts[currentLang];
-  gallerySelectLabel.textContent = t.selectLabel;
+    function updateStaticTexts() {
+      const t = texts[currentLang];
+      gallerySelectLabel.textContent = t.selectLabel;
 
-  if (gallerySelect.options.length > 0) {
-    gallerySelect.options[0].textContent = t.selectOption;
-  }
+      if (gallerySelect.options.length > 0) {
+        gallerySelect.options[0].textContent = t.selectOption;
+      }
 
-  const fecha = new Date();
-  const opcionesFecha = { year: 'numeric', month: 'long', day: 'numeric' };
-  const fechaFormateada = fecha.toLocaleDateString(t.locale, opcionesFecha);
+      const fecha = new Date();
+      const opcionesFecha = { year: 'numeric', month: 'long', day: 'numeric' };
+      const fechaFormateada = fecha.toLocaleDateString(t.locale, opcionesFecha);
 
-  lastUpdateDiv.innerHTML = `${t.lastUpdate} <span id="last-update">${fechaFormateada}</span>`;
+      lastUpdateDiv.innerHTML = `${t.lastUpdate} <span id="last-update">${fechaFormateada}</span>`;
 
-  // Añadir mensaje del autor con cambio de idioma
-  document.getElementById('creator-note').innerHTML =
-    currentLang === 'es'
-      ? 'Creado por <a href="https://www.instagram.com/alexpimonti" target="_blank">@alexpimonti</a> (Instagram)'
-      : 'Created by <a href="https://www.instagram.com/alexpimonti" target="_blank">@alexpimonti</a> (Instagram)';
-}
-  // Cambiar idioma al hacer clic
+      // Añadir mensaje del autor con cambio de idioma
+      document.getElementById('creator-note').innerHTML =
+        currentLang === 'es'
+          ? 'Creado por <a href="https://www.instagram.com/alexpimonti" target="_blank">@alexpimonti</a> (Instagram)'
+          : 'Created by <a href="https://www.instagram.com/alexpimonti" target="_blank">@alexpimonti</a> (Instagram)';
+    }
+    // Cambiar idioma al hacer clic
     toggleBtn.addEventListener('click', () => {
-
       currentLang = currentLang === 'es' ? 'en' : 'es';
 
       updateStaticTexts();
@@ -357,7 +355,8 @@ function updateStaticTexts() {
 
     // Variables globales para galerías y marcadores
     let userMarker = null;
-  fetch('galerias.json')
+
+    fetch('galerias.json')
       .then(response => response.json())
       .then(galerias => {
         const markers = [];
@@ -434,7 +433,7 @@ function updateStaticTexts() {
       map.zoomOut();
     });
   </script>
- <script>
+  <script>
     const donationPanel = document.getElementById('donation-panel');
     const donationToggle = document.getElementById('donation-toggle');
     const donateButton = document.getElementById('donate-button');

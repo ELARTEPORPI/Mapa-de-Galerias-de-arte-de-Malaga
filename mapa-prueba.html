@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <title>Mapa de Galerías de Arte - Multilenguaje</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  <style>
+    /* Reset básico para evitar márgenes/paddings inesperados */
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      overflow-x: hidden;
+      box-sizing: border-box;
+    }
+
+    /* Contenedor superior fijo */
+    #top-ui {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background: #f7f7f7;
+      z-index: 1000;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      font-size: 14px;
+      padding-bottom: 6px;
+    }
+
+    #update-date {
+      text-align: center;
+      font-size: 0.85em;
+      color: #555;
+      padding: 6px 0 4px;
+    }
+
+    #selector-bar {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2px 8px 0px;
+      max-width: 960px;
+      margin: 0 auto;
+    }
+
+    #zoom-controls {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+    }
+
+    #gallery-select-container {
+      flex: 0 0 auto;
+      width: 200px;
+      margin-left: auto;
+      margin-right: auto;
+      box-sizing: border-box;
+    }
+
+    .gallery-select {
+      width: 100%;
+      padding: 4px 8px;
+      font-size: 14px;
+      box-sizing: border-box;
+    }
+
+    #language-toggle {
+      flex-shrink: 0;
+      display: block;
+      margin-left: 20px;
+    }
+
+    /* Estilos botones zoom personalizados */
+    #zoom-in,
+    #zoom-out {
+      width: 30px;
+      height: 30px;
+      font-size: 20px;
+      padding: 0;
+      text-align: center;
+      line-height: 30px;
+      cursor: pointer;
+    }
+
+    /* Mapa adaptado a barra superior sin márgenes a los lados */
+    #map {
+      position: absolute;
+      top: 90px;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      width: 100%;
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    /* Media query para móviles */
+    @media (max-width: 600px) {
+      #selector-bar {
+        padding: 2px 8px 0px; /* menos padding abajo solo en móvil */
+      }
+
+      /* Mover botones zoom nativos si se usan */
+      .leaflet-control-zoom {
+        top: 110px !important;
+        left: 8px !important;
+      }
+
+      /* Ajustar botones zoom personalizados en móvil */
+      #zoom-in,
+      #zoom-out {
+        width: 30px !important;
+        height: 30px !important;
+        font-size: 20px !important;
+        padding: 0 !important;
+        text-align: center !important;
+        line-height: 30px !important;
+      }
+
+      /* Selector centrado horizontal y tamaño fijo */
+      #gallery-select-container {
+        flex: 0 0 auto;
+        width: 180px;
+        margin: 0 auto;
+        position: static !important;
+        left: auto !important;
+        top: auto !important;
+        transform: none !important;
+      }
+
+      .gallery-select {
+        width: 100%;
+      }
+
+      /* Botón idioma ligeramente más a la izquierda */
+      #language-toggle {
+        margin-left: 40px !important;
+        transform: translateX(-35px) !important;
+      }
+    }
+    /* Ocultar label visualmente pero mantener accesibilidad */
+    .visually-hidden {
+      position: absolute !important;
+      height: 1px; width: 1px;
+      overflow: hidden;
+      clip: rect(1px, 1px, 1px, 1px);
+      white-space: nowrap;
+    }
+    /* Panel de donación */
+    #donation-panel {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 320px;
+      background: #f7f7f7;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+      border-radius: 8px;
+      font-family: Arial, sans-serif;
+      font-size: 14px;
+      transition: max-height 0.3s ease;
+      overflow: hidden;
+      max-height: 40px; /* altura del botón cuando está cerrado */
+      z-index: 1100;
+    }
+
+    #donation-panel.open {
+      max-height: 180px; /* altura suficiente para contenido visible */
+    }
+
+    #donation-toggle {
+      width: 100%;
+      background: #0073e6;
+      color: white;
+      border: none;
+      padding: 10px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    #donation-content {
+      padding: 10px 15px;
+      display: none;
+      color: #333;
+    }
+
+    #donation-panel.open #donation-content {
+      display: block;
+    }
+
+    #donate-button {
+      background: #28a745;
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+      margin-top: 10px;
+      width: 100%;
+    }
+
+    #donate-button:hover {
+      background: #218838;
+    }
+
+    #author-credit {
+      text-align: center;
+      font-size: 0.9em;
+      color: #666;
+      margin: 4px 0 8px;
+      font-family: Arial, sans-serif;
+    }
+
+    #author-credit a {
+      color: #0073e6;
+      text-decoration: none;
+    }
+
+    #author-credit a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <!-- Contenedor fijo arriba con actualización y selector -->
+  <div id="top-ui">
+    <div id="update-date">
+      Última actualización: <span id="last-update"></span>
+    </div>
+    <div id="creator-note" style="text-align: center; font-size: 0.85em; color: #555; padding: 2px 0 4px;">
+      Creado por <a href="https://www.instagram.com/alexpimonti" target="_blank" rel="noopener noreferrer" aria-label="Perfil de Instagram de Alex Pimonti">@alexpimonti</a> (Instagram)
+    </div>
+    <div id="selector-bar">
+
+      <!-- Contenedor zoom personalizado -->
+      <div id="zoom-controls">
+        <button id="zoom-in" aria-label="Zoom in">+</button>
+        <button id="zoom-out" aria-label="Zoom out">-</button>
+      </div>
+
+      <div id="gallery-select-container">
+        <label for="gallery-select" class="visually-hidden">Selecciona una galería:</label>
+        <select id="gallery-select" class="gallery-select" aria-label="Selector de galerías">
+          <option value="">-- Elige una galería --</option>
+        </select>
+      </div>
+
+      <button id="language-toggle" aria-pressed="false" aria-label="Cambiar idioma">EN</button>
+    </div>
+  </div>
+
+  <!-- Mapa -->
+  <div id="map"></div>
+
+  <!-- Donaciones -->
+  <div id="donation-panel" class="closed">
+    <button id="donation-toggle" aria-expanded="false" aria-controls="donation-content">
+      Apoya este mapa con una donación
+    </button>
+    <div id="donation-content" role="region" aria-live="polite" hidden>
+      <p>Tu aportación ayuda a mantener actualizado este mapa e invertir en tarjetas con QR para que más personas conozcan el mapa.</p>
+      <button id="donate-button">Donar con Stripe</button>
+    </div>
+  </div>
+  <!-- Scripts -->
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <script>
+    // Crear mapa sin controles nativos de zoom (usamos personalizados)
+    const map = L.map('map', { zoomControl: false }).setView([36.7213, -4.4214], 13);
+
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+      attribution: '&copy; OpenStreetMap contributors & CartoDB',
+      maxZoom: 19,
+    }).addTo(map);
+
+    // Textos para idiomas
+    const texts = {
+      es: {
+        selectLabel: "Selecciona una galería:",
+        selectOption: "-- Elige una galería --",
+        lastUpdate: "Última actualización:",
+        locale: "es-ES"
+      },
+      en: {
+        selectLabel: "Select a gallery:",
+        selectOption: "-- Choose a gallery --",
+        lastUpdate: "Last update:",
+        locale: "en-US"
+      }
+    };
+
+    let currentLang = 'es';  // Idioma por defecto
+
+    const toggleBtn = document.getElementById('language-toggle');
+    const gallerySelectLabel = document.querySelector('label[for="gallery-select"]');
+    const gallerySelect = document.getElementById('gallery-select');
+    const lastUpdateDiv = document.getElementById('update-date');
+
+    // Actualizar textos estáticos según idioma
+    function updateStaticTexts() {
+      const t = texts[currentLang];
+      gallerySelectLabel.textContent = t.selectLabel;
+
+      if (gallerySelect.options.length > 0) {
+        gallerySelect.options[0].textContent = t.selectOption;
+      }
+
+      const fecha = new Date();
+      const opcionesFecha = { year: 'numeric', month: 'long', day: 'numeric' };
+      const fechaFormateada = fecha.toLocaleDateString(t.locale, opcionesFecha);
+
+      lastUpdateDiv.innerHTML = `${t.lastUpdate} <span id="last-update">${fechaFormateada}</span>`;
+
+      // Añadir mensaje del autor con cambio de idioma
+      document.getElementById('creator-note').innerHTML =
+        currentLang === 'es'
+          ? 'Creado por <a href="https://www.instagram.com/alexpimonti" target="_blank">@alexpimonti</a> (Instagram)'
+          : 'Created by <a href="https://www.instagram.com/alexpimonti" target="_blank">@alexpimonti</a> (Instagram)';
+    }
+    // Cambiar idioma al hacer clic
+    toggleBtn.addEventListener('click', () => {
+      currentLang = currentLang === 'es' ? 'en' : 'es';
+
+      updateStaticTexts();
+
+      // Actualizar popup ubicación usuario si existe
+      if (userMarker) {
+        userMarker.setPopupContent(currentLang === 'es' ? "Tu ubicación" : "Your location");
+      }
+
+      // Actualizar popup abierto si hay alguno
+      const openPopup = map._popup;
+      if (openPopup && openPopup.isOpen()) {
+        const marker = openPopup._source;
+
+        const idx = window.markers.indexOf(marker);
+        if (idx !== -1) {
+          openPopup.setContent(
+            `<b>${window.galerias[idx].nombre}</b><br>` +
+            `<span>${currentLang === 'es' ? window.galerias[idx].descripcion_es : window.galerias[idx].descripcion_en}</span>`
+          );
+        }
+      }
+
+      // Cambiar texto botón idioma
+      toggleBtn.textContent = currentLang === 'es' ? 'EN' : 'ES';
+      toggleBtn.setAttribute('aria-pressed', currentLang === 'es' ? 'false' : 'true');
+    });
+
+    updateStaticTexts();
+
+    // Variables globales para galerías y marcadores
+    let userMarker = null;
+
+    fetch('galerias.json')
+      .then(response => response.json())
+      .then(galerias => {
+        const markers = [];
+        const gallerySelect = document.getElementById('gallery-select');
+
+        function getPopupContent(galeria) {
+          const desc = currentLang === 'es' ? galeria.descripcion_es : galeria.descripcion_en;
+          return `<b>${galeria.nombre}</b><br><span>${desc}</span>`;
+        }
+
+        galerias.forEach((galeria, index) => {
+          const marker = L.marker([galeria.lat, galeria.lng]).addTo(map);
+          marker.bindPopup('');
+          markers.push(marker);
+
+          const option = document.createElement('option');
+          option.value = index;
+          option.textContent = galeria.nombre;
+          gallerySelect.appendChild(option);
+        });
+
+        gallerySelect.addEventListener('change', () => {
+          const idx = gallerySelect.value;
+          if (idx !== '') {
+            const marker = markers[idx];
+            marker.setPopupContent(getPopupContent(galerias[idx]));
+            marker.openPopup();
+            map.setView(marker.getLatLng(), 16);
+          }
+        });
+
+        map.on('popupopen', e => {
+          const marker = e.popup._source;
+          const idx = markers.indexOf(marker);
+          if (idx !== -1) {
+            e.popup.setContent(getPopupContent(galerias[idx]));
+          }
+        });
+
+        window.galerias = galerias;
+        window.markers = markers;
+      })
+      .catch(error => console.error('Error cargando galerías:', error));
+
+    // Mostrar ubicación del usuario
+    if ("geolocation" in navigator) {
+      navigator.geolocation.getCurrentPosition(position => {
+        const userLat = position.coords.latitude;
+        const userLng = position.coords.longitude;
+
+        userMarker = L.circleMarker([userLat, userLng], {
+          radius: 8,
+          fillColor: "#3388ff",
+          color: "#fff",
+          weight: 2,
+          opacity: 1,
+          fillOpacity: 0.9
+        }).addTo(map).bindPopup(currentLang === 'es' ? "Tu ubicación" : "Your location");
+
+        map.setView([userLat, userLng], 14);
+      }, error => {
+        console.log("No se pudo obtener la ubicación: ", error.message);
+      });
+    } else {
+      console.log("Geolocalización no está disponible en este navegador.");
+    }
+
+    // Zoom personalizado con botones + y -
+    document.getElementById('zoom-in').addEventListener('click', () => {
+      map.zoomIn();
+    });
+
+    document.getElementById('zoom-out').addEventListener('click', () => {
+      map.zoomOut();
+    });
+  </script>
+  <script>
+    const donationPanel = document.getElementById('donation-panel');
+    const donationToggle = document.getElementById('donation-toggle');
+    const donateButton = document.getElementById('donate-button');
+
+    donationToggle.addEventListener('click', () => {
+      donationPanel.classList.toggle('open');
+      // Actualizar aria-expanded para accesibilidad
+      const expanded = donationPanel.classList.contains('open');
+      donationToggle.setAttribute('aria-expanded', expanded);
+      // Mostrar u ocultar contenido con atributo hidden para accesibilidad
+      const content = document.getElementById('donation-content');
+      if (expanded) {
+        content.removeAttribute('hidden');
+      } else {
+        content.setAttribute('hidden', '');
+      }
+    });
+
+    donateButton.addEventListener('click', () => {
+      // Pon aquí tu Payment Link de Stripe como string
+      const stripeLink = 'https://donate.stripe.com/7sYdR1bn17SLcPvdNa7N600';
+      window.open(stripeLink, '_blank');
+    });
+  </script>
+</body>
+</html>
