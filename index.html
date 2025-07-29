@@ -103,14 +103,10 @@
       #selector-bar {
         padding: 2px 8px 0px;
       }
-
-      /* Mover botones zoom nativos si se usan */
       .leaflet-control-zoom {
         top: 110px !important;
         left: 8px !important;
       }
-
-      /* Ajustar botones zoom personalizados en móvil */
       #zoom-in,
       #zoom-out {
         width: 30px !important;
@@ -120,8 +116,6 @@
         text-align: center !important;
         line-height: 30px !important;
       }
-
-      /* Selector centrado horizontal y tamaño fijo */
       #gallery-select-container {
         flex: 0 0 auto;
         width: 180px;
@@ -131,12 +125,9 @@
         top: auto !important;
         transform: none !important;
       }
-
       .gallery-select {
         width: 100%;
       }
-
-      /* Botón idioma ligeramente más a la izquierda */
       #language-toggle {
         margin-left: 40px !important;
         transform: translateX(-35px) !important;
@@ -276,25 +267,6 @@
   <!-- Scripts -->
   <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
   <script>
-    // Inicializamos los iconos con colores azul y verde
-    const iconGaleria = L.icon({
-      iconUrl: 'icons/blue-icon.png',
-      iconSize: [25, 41],
-      iconAnchor: [12, 41],
-      popupAnchor: [1, -34],
-      shadowUrl: 'https://unpkg.com/leaflet/dist/images/marker-shadow.png',
-      shadowSize: [41, 41]
-    });
-
-    const iconEspacio = L.icon({
-      iconUrl: 'icons/green-icon.png',
-      iconSize: [25, 41],
-      iconAnchor: [12, 41],
-      popupAnchor: [1, -34],
-      shadowUrl: 'https://unpkg.com/leaflet/dist/images/marker-shadow.png',
-      shadowSize: [41, 41]
-    });
-
     // Crear mapa sin controles nativos de zoom (usamos personalizados)
     const map = L.map('map', { zoomControl: false }).setView([36.7213, -4.4214], 13);
 
@@ -353,10 +325,39 @@
       donationNoteP.textContent = t.donationNote;
       donateBtn.textContent = t.donateButton;
 
+      // Actualizar mensaje autor con cambio de idioma
       document.getElementById('creator-note').innerHTML =
         currentLang === 'es'
           ? 'Creado por <a href="https://www.instagram.com/alexpimonti" target="_blank">@alexpimonti</a> (Instagram)'
           : 'Created by <a href="https://www.instagram.com/alexpimonti" target="_blank">@alexpimonti</a> (Instagram)';
+    }
+
+    // Función para obtener icono de marcador según tipo
+    function getMarkerIcon(tipo) {
+      // Icono azul predeterminado
+      const defaultIcon = L.icon({
+        iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
+        iconSize: [25, 41],
+        iconAnchor: [12, 41],
+        popupAnchor: [1, -34],
+        shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
+        shadowSize: [41, 41]
+      });
+
+      // Icono verde personalizado para tipo 'galería'
+      const greenIcon = L.icon({
+        iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-green.png',
+        iconSize: [25, 41],
+        iconAnchor: [12, 41],
+        popupAnchor: [1, -34],
+        shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
+        shadowSize: [41, 41]
+      });
+
+      if (tipo === 'galería') {
+        return greenIcon;
+      }
+      return defaultIcon;
     }
 
     // Cambiar idioma al hacer clic
@@ -364,10 +365,12 @@
       currentLang = currentLang === 'es' ? 'en' : 'es';
       updateStaticTexts();
 
+      // Actualizar popup ubicación usuario si existe
       if (userMarker) {
         userMarker.setPopupContent(currentLang === 'es' ? "Tu ubicación" : "Your location");
       }
 
+      // Actualizar popup abierto si hay alguno
       const openPopup = map._popup;
       if (openPopup && openPopup.isOpen()) {
         const marker = openPopup._source;
@@ -380,37 +383,24 @@
         }
       }
 
+      // Cambiar texto botón idioma
       toggleBtn.textContent = currentLang === 'es' ? 'EN' : 'ES';
       toggleBtn.setAttribute('aria-pressed', currentLang === 'es' ? 'false' : 'true');
     });
 
     updateStaticTexts();
 
+    // Variables globales para galerías y marcadores
     let userMarker = null;
 
     fetch('galerias.json')
       .then(response => response.json())
       .then(galerias => {
         const markers = [];
-        const gallerySelect = document.getElementById('gallery-select');
-
-        function getPopupContent(galeria) {
-          const desc = currentLang === 'es' ? galeria.descripcion_es : galeria.descripcion_en;
-          return `<b>${galeria.nombre}</b><br><span>${desc}</span>`;
-        }
 
         galerias.forEach((galeria, index) => {
-          let icon;
-          switch (galeria.tipo) {
-            case 'galeria':
-              icon = iconGaleria;
-              break;
-            case 'espacio':
-              icon = iconEspacio;
-              break;
-            default:
-              icon = iconGaleria; // Por defecto azul si no hay tipo o desconocido
-          }
+          const icon = getMarkerIcon(galeria.tipo);
+
           const marker = L.marker([galeria.lat, galeria.lng], { icon }).addTo(map);
           marker.bindPopup('');
           markers.push(marker);
@@ -420,6 +410,11 @@
           option.textContent = galeria.nombre;
           gallerySelect.appendChild(option);
         });
+
+        function getPopupContent(galeria) {
+          const desc = currentLang === 'es' ? galeria.descripcion_es : galeria.descripcion_en;
+          return `<b>${galeria.nombre}</b><br><span>${desc}</span>`;
+        }
 
         gallerySelect.addEventListener('change', () => {
           const idx = gallerySelect.value;
@@ -443,7 +438,6 @@
         window.markers = markers;
       })
       .catch(error => console.error('Error cargando galerías:', error));
-
     // Mostrar ubicación del usuario
     if ("geolocation" in navigator) {
       navigator.geolocation.getCurrentPosition(position => {
@@ -475,16 +469,18 @@
     document.getElementById('zoom-out').addEventListener('click', () => {
       map.zoomOut();
     });
-  </script>
-  <script>
+
+    // Panel de donaciones
     const donationPanel = document.getElementById('donation-panel');
     const donationToggle = document.getElementById('donation-toggle');
     const donateButton = document.getElementById('donate-button');
 
     donationToggle.addEventListener('click', () => {
       donationPanel.classList.toggle('open');
+      // Actualizar aria-expanded para accesibilidad
       const expanded = donationPanel.classList.contains('open');
       donationToggle.setAttribute('aria-expanded', expanded);
+      // Mostrar u ocultar contenido con atributo hidden para accesibilidad
       const content = document.getElementById('donation-content');
       if (expanded) {
         content.removeAttribute('hidden');
@@ -494,6 +490,7 @@
     });
 
     donateButton.addEventListener('click', () => {
+      // Pon aquí tu Payment Link de Stripe como string
       const stripeLink = 'https://donate.stripe.com/7sYdR1bn17SLcPvdNa7N600';
       window.open(stripeLink, '_blank');
     });
