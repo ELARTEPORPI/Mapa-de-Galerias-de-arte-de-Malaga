@@ -384,7 +384,25 @@
           const desc = currentLang === 'es' ? galeria.descripcion_es : galeria.descripcion_en;
           return `<b>${galeria.nombre}</b><br><span>${desc}</span>`;
         }
+    // Iconos personalizados según tipo
+    const iconGaleria = L.icon({
+      iconUrl: 'https://cdn-icons-png.flaticon.com/512/565/565547.png', // ejemplo azul
+      iconSize: [30, 40],
+      iconAnchor: [15, 40],
+      popupAnchor: [0, -35]
+    });
 
+    const iconEspacio = L.icon({
+      iconUrl: 'https://cdn-icons-png.flaticon.com/512/616/616408.png', // ejemplo verde
+      iconSize: [30, 40],
+      iconAnchor: [15, 40],
+      popupAnchor: [0, -35]
+    });
+
+    function getPopupContent(galeria) {
+      const desc = currentLang === 'es' ? galeria.descripcion_es : galeria.descripcion_en;
+      return `<b>${galeria.nombre}</b><br><span>${desc}</span>`;
+    }
         galerias.forEach((galeria, index) => {
           const marker = L.marker([galeria.lat, galeria.lng]).addTo(map);
           marker.bindPopup('');
