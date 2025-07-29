@@ -97,19 +97,18 @@
       padding: 0;
       box-sizing: border-box;
     }
+
     /* Media query para móviles */
     @media (max-width: 600px) {
       #selector-bar {
-        padding: 2px 8px 0px; /* menos padding abajo solo en móvil */
+        padding: 2px 8px 0px;
       }
 
-      /* Mover botones zoom nativos si se usan */
       .leaflet-control-zoom {
         top: 110px !important;
         left: 8px !important;
       }
 
-      /* Ajustar botones zoom personalizados en móvil */
       #zoom-in,
       #zoom-out {
         width: 30px !important;
@@ -120,7 +119,6 @@
         line-height: 30px !important;
       }
 
-      /* Selector centrado horizontal y tamaño fijo */
       #gallery-select-container {
         flex: 0 0 auto;
         width: 180px;
@@ -135,12 +133,12 @@
         width: 100%;
       }
 
-      /* Botón idioma ligeramente más a la izquierda */
       #language-toggle {
         margin-left: 40px !important;
         transform: translateX(-35px) !important;
       }
     }
+
     /* Ocultar label visualmente pero mantener accesibilidad */
     .visually-hidden {
       position: absolute !important;
@@ -164,12 +162,12 @@
       font-size: 14px;
       transition: max-height 0.3s ease;
       overflow: hidden;
-      max-height: 40px; /* altura del botón cuando está cerrado */
+      max-height: 40px;
       z-index: 1100;
     }
 
     #donation-panel.open {
-      max-height: 220px; /* altura suficiente para contenido visible */
+      max-height: 220px;
     }
 
     #donation-toggle {
@@ -281,6 +279,35 @@
       maxZoom: 19,
     }).addTo(map);
 
+    // Iconos personalizados para tipos
+    const iconGaleria = L.icon({
+      iconUrl: 'https://cdn-icons-png.flaticon.com/512/3448/3448521.png',
+      iconSize: [30, 30],
+      iconAnchor: [15, 30],
+      popupAnchor: [0, -30],
+    });
+
+    const iconLibreria = L.icon({
+      iconUrl: 'https://cdn-icons-png.flaticon.com/512/616/616408.png',
+      iconSize: [30, 30],
+      iconAnchor: [15, 30],
+      popupAnchor: [0, -30],
+    });
+
+    const iconConceptStore = L.icon({
+      iconUrl: 'https://cdn-icons-png.flaticon.com/512/1025/1025121.png',
+      iconSize: [30, 30],
+      iconAnchor: [15, 30],
+      popupAnchor: [0, -30],
+    });
+
+    const iconDefault = L.icon({
+      iconUrl: 'https://cdn-icons-png.flaticon.com/512/565/565547.png',
+      iconSize: [30, 30],
+      iconAnchor: [15, 30],
+      popupAnchor: [0, -30],
+    });
+
     // Textos para idiomas
     const texts = {
       es: {
@@ -338,9 +365,9 @@
           ? 'Creado por <a href="https://www.instagram.com/alexpimonti" target="_blank">@alexpimonti</a> (Instagram)'
           : 'Created by <a href="https://www.instagram.com/alexpimonti" target="_blank">@alexpimonti</a> (Instagram)';
     }
+
     // Cambiar idioma al hacer clic
     toggleBtn.addEventListener('click', () => {
-
       currentLang = currentLang === 'es' ? 'en' : 'es';
 
       updateStaticTexts();
@@ -378,33 +405,29 @@
       .then(response => response.json())
       .then(galerias => {
         const markers = [];
-        const gallerySelect = document.getElementById('gallery-select');
 
         function getPopupContent(galeria) {
           const desc = currentLang === 'es' ? galeria.descripcion_es : galeria.descripcion_en;
           return `<b>${galeria.nombre}</b><br><span>${desc}</span>`;
         }
-    // Iconos personalizados según tipo
-    const iconGaleria = L.icon({
-      iconUrl: 'https://cdn-icons-png.flaticon.com/512/565/565547.png', // ejemplo azul
-      iconSize: [30, 40],
-      iconAnchor: [15, 40],
-      popupAnchor: [0, -35]
-    });
 
-    const iconEspacio = L.icon({
-      iconUrl: 'https://cdn-icons-png.flaticon.com/512/616/616408.png', // ejemplo verde
-      iconSize: [30, 40],
-      iconAnchor: [15, 40],
-      popupAnchor: [0, -35]
-    });
-
-    function getPopupContent(galeria) {
-      const desc = currentLang === 'es' ? galeria.descripcion_es : galeria.descripcion_en;
-      return `<b>${galeria.nombre}</b><br><span>${desc}</span>`;
-    }
         galerias.forEach((galeria, index) => {
-          const marker = L.marker([galeria.lat, galeria.lng]).addTo(map);
+          let icon;
+          switch (galeria.tipo) {
+            case 'galeria':
+              icon = iconGaleria;
+              break;
+            case 'libreria':
+              icon = iconLibreria;
+              break;
+            case 'concept_store':
+              icon = iconConceptStore;
+              break;
+            default:
+              icon = iconDefault;
+          }
+
+          const marker = L.marker([galeria.lat, galeria.lng], { icon: icon }).addTo(map);
           marker.bindPopup('');
           markers.push(marker);
 
@@ -469,6 +492,7 @@
       map.zoomOut();
     });
   </script>
+
   <script>
     const donationPanel = document.getElementById('donation-panel');
     const donationToggle = document.getElementById('donation-toggle');
