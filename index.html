@@ -104,11 +104,13 @@
         padding: 2px 8px 0px;
       }
 
+      /* Mover botones zoom nativos si se usan */
       .leaflet-control-zoom {
         top: 110px !important;
         left: 8px !important;
       }
 
+      /* Ajustar botones zoom personalizados en móvil */
       #zoom-in,
       #zoom-out {
         width: 30px !important;
@@ -119,6 +121,7 @@
         line-height: 30px !important;
       }
 
+      /* Selector centrado horizontal y tamaño fijo */
       #gallery-select-container {
         flex: 0 0 auto;
         width: 180px;
@@ -133,6 +136,7 @@
         width: 100%;
       }
 
+      /* Botón idioma ligeramente más a la izquierda */
       #language-toggle {
         margin-left: 40px !important;
         transform: translateX(-35px) !important;
@@ -268,9 +272,29 @@
       <button id="donate-button">Donar con Stripe</button>
     </div>
   </div>
+
   <!-- Scripts -->
   <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
   <script>
+    // Inicializamos los iconos con colores azul y verde
+    const iconGaleria = L.icon({
+      iconUrl: 'icons/blue-icon.png',
+      iconSize: [25, 41],
+      iconAnchor: [12, 41],
+      popupAnchor: [1, -34],
+      shadowUrl: 'https://unpkg.com/leaflet/dist/images/marker-shadow.png',
+      shadowSize: [41, 41]
+    });
+
+    const iconEspacio = L.icon({
+      iconUrl: 'icons/green-icon.png',
+      iconSize: [25, 41],
+      iconAnchor: [12, 41],
+      popupAnchor: [1, -34],
+      shadowUrl: 'https://unpkg.com/leaflet/dist/images/marker-shadow.png',
+      shadowSize: [41, 41]
+    });
+
     // Crear mapa sin controles nativos de zoom (usamos personalizados)
     const map = L.map('map', { zoomControl: false }).setView([36.7213, -4.4214], 13);
 
@@ -278,35 +302,6 @@
       attribution: '&copy; OpenStreetMap contributors & CartoDB',
       maxZoom: 19,
     }).addTo(map);
-
-    // Iconos personalizados para tipos
-    const iconGaleria = L.icon({
-      iconUrl: 'https://cdn-icons-png.flaticon.com/512/3448/3448521.png',
-      iconSize: [30, 30],
-      iconAnchor: [15, 30],
-      popupAnchor: [0, -30],
-    });
-
-    const iconLibreria = L.icon({
-      iconUrl: 'https://cdn-icons-png.flaticon.com/512/616/616408.png',
-      iconSize: [30, 30],
-      iconAnchor: [15, 30],
-      popupAnchor: [0, -30],
-    });
-
-    const iconConceptStore = L.icon({
-      iconUrl: 'https://cdn-icons-png.flaticon.com/512/1025/1025121.png',
-      iconSize: [30, 30],
-      iconAnchor: [15, 30],
-      popupAnchor: [0, -30],
-    });
-
-    const iconDefault = L.icon({
-      iconUrl: 'https://cdn-icons-png.flaticon.com/512/565/565547.png',
-      iconSize: [30, 30],
-      iconAnchor: [15, 30],
-      popupAnchor: [0, -30],
-    });
 
     // Textos para idiomas
     const texts = {
@@ -339,7 +334,6 @@
     const donationToggleBtn = document.getElementById('donation-toggle');
     const donationNoteP = document.getElementById('donation-note');
     const donateBtn = document.getElementById('donate-button');
-
     // Actualizar textos estáticos según idioma
     function updateStaticTexts() {
       const t = texts[currentLang];
@@ -359,7 +353,6 @@
       donationNoteP.textContent = t.donationNote;
       donateBtn.textContent = t.donateButton;
 
-      // Actualizar mensaje autor con cambio de idioma
       document.getElementById('creator-note').innerHTML =
         currentLang === 'es'
           ? 'Creado por <a href="https://www.instagram.com/alexpimonti" target="_blank">@alexpimonti</a> (Instagram)'
@@ -369,19 +362,15 @@
     // Cambiar idioma al hacer clic
     toggleBtn.addEventListener('click', () => {
       currentLang = currentLang === 'es' ? 'en' : 'es';
-
       updateStaticTexts();
 
-      // Actualizar popup ubicación usuario si existe
       if (userMarker) {
         userMarker.setPopupContent(currentLang === 'es' ? "Tu ubicación" : "Your location");
       }
 
-      // Actualizar popup abierto si hay alguno
       const openPopup = map._popup;
       if (openPopup && openPopup.isOpen()) {
         const marker = openPopup._source;
-
         const idx = window.markers.indexOf(marker);
         if (idx !== -1) {
           openPopup.setContent(
@@ -391,20 +380,19 @@
         }
       }
 
-      // Cambiar texto botón idioma
       toggleBtn.textContent = currentLang === 'es' ? 'EN' : 'ES';
       toggleBtn.setAttribute('aria-pressed', currentLang === 'es' ? 'false' : 'true');
     });
 
     updateStaticTexts();
 
-    // Variables globales para galerías y marcadores
     let userMarker = null;
 
     fetch('galerias.json')
       .then(response => response.json())
       .then(galerias => {
         const markers = [];
+        const gallerySelect = document.getElementById('gallery-select');
 
         function getPopupContent(galeria) {
           const desc = currentLang === 'es' ? galeria.descripcion_es : galeria.descripcion_en;
@@ -417,17 +405,13 @@
             case 'galeria':
               icon = iconGaleria;
               break;
-            case 'libreria':
-              icon = iconLibreria;
-              break;
-            case 'concept_store':
-              icon = iconConceptStore;
+            case 'espacio':
+              icon = iconEspacio;
               break;
             default:
-              icon = iconDefault;
+              icon = iconGaleria; // Por defecto azul si no hay tipo o desconocido
           }
-
-          const marker = L.marker([galeria.lat, galeria.lng], { icon: icon }).addTo(map);
+          const marker = L.marker([galeria.lat, galeria.lng], { icon }).addTo(map);
           marker.bindPopup('');
           markers.push(marker);
 
@@ -492,7 +476,6 @@
       map.zoomOut();
     });
   </script>
-
   <script>
     const donationPanel = document.getElementById('donation-panel');
     const donationToggle = document.getElementById('donation-toggle');
@@ -500,10 +483,8 @@
 
     donationToggle.addEventListener('click', () => {
       donationPanel.classList.toggle('open');
-      // Actualizar aria-expanded para accesibilidad
       const expanded = donationPanel.classList.contains('open');
       donationToggle.setAttribute('aria-expanded', expanded);
-      // Mostrar u ocultar contenido con atributo hidden para accesibilidad
       const content = document.getElementById('donation-content');
       if (expanded) {
         content.removeAttribute('hidden');
@@ -513,7 +494,6 @@
     });
 
     donateButton.addEventListener('click', () => {
-      // Pon aquí tu Payment Link de Stripe como string
       const stripeLink = 'https://donate.stripe.com/7sYdR1bn17SLcPvdNa7N600';
       window.open(stripeLink, '_blank');
     });
