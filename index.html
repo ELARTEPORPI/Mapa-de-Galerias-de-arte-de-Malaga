@@ -401,9 +401,12 @@
         galerias.forEach((galeria, index) => {
           const icon = getMarkerIcon(galeria.tipo);
 
-          const marker = L.marker([galeria.lat, galeria.lng], { icon }).addTo(map);
-          marker.bindPopup('');
+         const marker = L.marker([galeria.lat, galeria.lng], {
+        icon: getMarkerIcon(galeria.tipo)
+        });
+          marker.bindPopup(galeria.descripcion_es); // o descripción_en si estás usando inglés
           markers.push(marker);
+        
 
           const option = document.createElement('option');
           option.value = index;
