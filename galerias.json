@@ -36,24 +36,24 @@
         "lat": 36.72271800312526,
         "lng": -4.424497849507743,
         "tipo": "galeria",
-        "descripcion_es": "Exposición actual: Crisálida<br>Inaugurada: El 21 de julio<br>Horarios de visita:<br>Lunes a viernes<br>10:00-14:00<br>Instagram: <a href=\"https://www.instagram.com/lcamalaga/\" target=\"_blank\">@lcamalaga</a><br><a href=\"https://maps.app.goo.gl/Jg9nhCnh3FxaCV2e8\" target=\"_blank\">Ver en Google Maps</a>",
-        "descripcion_en": "Current exhibition: Crisálida<br>Opened: July 21<br>Visiting hours:<br>Monday to Friday<br>10:00 AM - 02:00 PM<br>Instagram:  <a href=\"https://www.instagram.com/lcamalaga/\" target=\"_blank\">@lcamalaga</a><br><a href=\"https://maps.app.goo.gl/Jg9nhCnh3FxaCV2e8\" target=\"_blank\">View on Google Maps</a>"
+        "descripcion_es": "Exposición actual: Crisálida<br>Inaugurada: El 21 de julio<br>Horarios de visita:<br>Cerrado en Agosto<br>Instagram: <a href=\"https://www.instagram.com/lcamalaga/\" target=\"_blank\">@lcamalaga</a><br><a href=\"https://maps.app.goo.gl/Jg9nhCnh3FxaCV2e8\" target=\"_blank\">Ver en Google Maps</a>",
+        "descripcion_en": "Current exhibition: Crisálida<br>Opened: July 21<br>Visiting hours:<br>Closed in August<br>Instagram:  <a href=\"https://www.instagram.com/lcamalaga/\" target=\"_blank\">@lcamalaga</a><br><a href=\"https://maps.app.goo.gl/Jg9nhCnh3FxaCV2e8\" target=\"_blank\">View on Google Maps</a>"
     },
     {
         "nombre": "La Casa Amarilla Málaga (Espacio de Producción)",
         "lat": 36.72107413138251,
         "lng": -4.423657124024466,
         "tipo": "galeria",
-        "descripcion_es": "Exposición actual: Información próximamente<br>Inaugurada: Información próximamente<br>Horarios de visita:<br>Lunes a viernes (solo cita previa),(horarios especiales en RRSS)<br>Instagram: <a href=\"https://www.instagram.com/lcamalaga/\" target=\"_blank\">@lcamalaga</a><br><a href=\"https://maps.app.goo.gl/34V2MrMvqno2aEBN7\" target=\"_blank\">Ver en Google Maps</a>",
-        "descripcion_en": "Current exhibition: To be announced<br>Opened: To be announced<br>Visiting hours:<br>Monday to Friday (Appointment only), (check social media for special hours)<br>Instagram: <a href=\"https://www.instagram.com/lcamalaga/\" target=\"_blank\">@lcamalaga</a><br><a href=\"https://maps.app.goo.gl/34V2MrMvqno2aEBN7\" target=\"_blank\">View on Google Maps</a>"
+        "descripcion_es": "Exposición actual: Información próximamente<br>Inaugurada: Información próximamente<br>Horarios de visita:<br>Cerrado en Agosto<br>Instagram: <a href=\"https://www.instagram.com/lcamalaga/\" target=\"_blank\">@lcamalaga</a><br><a href=\"https://maps.app.goo.gl/34V2MrMvqno2aEBN7\" target=\"_blank\">Ver en Google Maps</a>",
+        "descripcion_en": "Current exhibition: To be announced<br>Opened: To be announced<br>Visiting hours:<br>Closed in August<br>Instagram: <a href=\"https://www.instagram.com/lcamalaga/\" target=\"_blank\">@lcamalaga</a><br><a href=\"https://maps.app.goo.gl/34V2MrMvqno2aEBN7\" target=\"_blank\">View on Google Maps</a>"
     },
     {
         "nombre": "La Casa Amarilla Málaga (La Casa de Socorro-Promálaga)",
         "lat": 36.72058024790025,
         "lng": -4.428206366179122,
         "tipo": "galeria",
-        "descripcion_es": "Exposición actual: Simplemente Ruano<br>Inaugurada: El 13 de junio<br>Horarios de visita:<br>Lunes a viernes<br>08:30-15:30 y 17:00-20:00<br>Instagram: <a href=\"https://www.instagram.com/lcamalaga/\" target=\"_blank\">@lcamalaga</a><br><a href=\"https://maps.app.goo.gl/XcteYKW8rT6LCkxf7\" target=\"_blank\">Ver en Google Maps</a>",
-        "descripcion_en": "Current exhibition: Simplemente Ruano<br>Opened: June 13<br>Visiting hours:<br>Monday to Friday<br>08:30 AM - 03:30 PM & 05:00 PM - 08:00 PM<br>Instagram:  <a href=\"https://www.instagram.com/lcamalaga/\" target=\"_blank\">@lcamalaga</a><br><a href=\"https://maps.app.goo.gl/XcteYKW8rT6LCkxf7\" target=\"_blank\">View on Google Maps</a>"
+        "descripcion_es": "Exposición actual: Simplemente Ruano<br>Inaugurada: El 13 de junio<br>Horarios de visita:<br>Cerrado en Agosto<br>Instagram: <a href=\"https://www.instagram.com/lcamalaga/\" target=\"_blank\">@lcamalaga</a><br><a href=\"https://maps.app.goo.gl/XcteYKW8rT6LCkxf7\" target=\"_blank\">Ver en Google Maps</a>",
+        "descripcion_en": "Current exhibition: Simplemente Ruano<br>Opened: June 13<br>Visiting hours:<br>Closed in August<br>Instagram:  <a href=\"https://www.instagram.com/lcamalaga/\" target=\"_blank\">@lcamalaga</a><br><a href=\"https://maps.app.goo.gl/XcteYKW8rT6LCkxf7\" target=\"_blank\">View on Google Maps</a>"
     },
     {
         "nombre": "Kalopsia Art Studio Gallery",
